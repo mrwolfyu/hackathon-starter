@@ -7,12 +7,9 @@
 var config = require('../.config.json')
 
 exports.index = (req, res) => {
-  if(req.user.profile.tip === 'admin') {
-	res.redirect('/admin');
-  }
-  res.render('home', {
-    title: 'Home',
-    admin: 'no',
+  res.render('admin', {
+    title: 'Admin',
+    admin: 'admin',
     LOCATION: config.LOCATION
   });
 };

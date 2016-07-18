@@ -15,7 +15,7 @@ tmp
 
 # API keys and secrets
 .env
-
+.config.json
 # Dependency directory
 node_modules
 bower_components

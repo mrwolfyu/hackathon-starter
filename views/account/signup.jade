@@ -6,9 +6,9 @@ block content
   form.form-horizontal(id='signup-form', method='POST')
     input(type='hidden', name='_csrf', value=_csrf)
     .form-group
-      label.col-sm-3.control-label(for='email') Email
+      label.col-sm-3.control-label(for='username') Username
       .col-sm-7
-        input.form-control(type='email', name='email', id='email', placeholder='Email', autofocus, required)
+        input.form-control(type='username', name='username', id='username', placeholder='Username', autofocus, required)
     .form-group
       label.col-sm-3.control-label(for='password') Password
       .col-sm-7
@@ -18,7 +18,28 @@ block content
       .col-sm-7
         input.form-control(type='password', name='confirmPassword', id='confirmPassword', placeholder='Confirm Password', required)
     .form-group
+      label.col-sm-3.control-label(for='name') Name
+      .col-sm-7
+        input.form-control(type='text', name='name', id='name',  placeholder='Full Name', required)
+    .form-group
+      label.col-sm-3.control-label(for='tip') Type
+      .col-sm-6
+        label.radio.col-sm-3
+          input(type='radio', checked=true, name='tip', value='attendee', data-toggle='radio')
+          span Attendee
+        label.radio.col-sm-3
+          input(type='radio', name='tip', value='moderator', data-toggle='radio')
+          span Moderator
+        label.radio.col-sm-3
+          input(type='radio', name='tip', value='admin', data-toggle='radio')
+          span Admin
+    .form-group
+      label.col-sm-3.control-label(for='xml') XML
+      .col-sm-7
+        textarea.form-control(type='text', name='xml', id='xml', rows='12',  placeholder='Custom XML if aplicable')
+    .form-group
       .col-sm-offset-3.col-sm-7
         button.btn.btn-success(type='submit')
           i.fa.fa-user-plus
-          | Signup
+          | Create
+
