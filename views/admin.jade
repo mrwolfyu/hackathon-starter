@@ -7,7 +7,41 @@ block content
   .row
     .col-sm-6
       h2 Accounts
-      p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+      p
+        table.table.table-hover.table-bordered
+           thead
+             tr
+               th Username/Name
+               th Type
+               th Action
+           each user, i in users  
+             tr
+               td #{user.username} / #{user.profile.name}
+               td #{user.profile.tip}
+               td
+                 a.i.fa.fa-pencil(href='/account/#{user._id}')
+      .form-group
+          a.button.btn.btn-primary(href='/signup')
+            i.fa.fa-plus
+            | Add User
+
     .col-sm-6
       h2 Rooms
-      p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+      p
+        table.table.table-hover.table-bordered
+           thead
+             tr
+               th Meeting Id
+               th Meeting name
+               th Action
+           each room, i in rooms
+             tr
+               td #{room.meetingID}
+               td #{room.name}
+               td
+                 a.i.fa.fa-pencil(href='/roomc/#{room._id}') Edit
+                 a.i.fa.fa-check(href='/roomc/#{room._id}') Join
+      .form-group
+          a.button.btn.btn-primary(href='/roomc')
+            i.fa.fa-plus
+            | Add Meetting

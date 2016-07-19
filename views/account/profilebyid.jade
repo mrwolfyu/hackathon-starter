@@ -4,12 +4,16 @@ block content
   .page-header
     h3 Profile Information
 
-  form.form-horizontal(action='/account/profile', method='POST')
+  form.form-horizontal(action='/account/profile/#{edituser._id}', method='POST')
     input(type='hidden', name='_csrf', value=_csrf)
     .form-group
       label.col-sm-3.control-label(for='username') Username
       .col-sm-7
-        input.form-control(type='text', name='ime', id='ime', value='#{user.username}')
+        input.form-control(type='text', name='ime', id='ime', value='#{edituser.username}')
+    .form-group
+      label.col-sm-3.control-label(for='name') Name
+      .col-sm-7
+        input.form-control(type='text', name='name', id='name', value='#{edituser.profile.name}', placeholder='Full Name')
     .form-group
       label.col-sm-3.control-label(for='select') Bind Room
       .col-sm-7
@@ -17,25 +21,21 @@ block content
           each room, i in rooms
             option #{room.name}
     .form-group
-      label.col-sm-3.control-label(for='name') Name
-      .col-sm-7
-        input.form-control(type='text', name='name', id='name', value='#{user.profile.name}', placeholder='Full Name')
-    .form-group
       label.col-sm-3.control-label(for='tip') Type
       .col-sm-6
         label.radio.col-sm-3
-          input(type='radio', checked=user.profile.tip=='attendee', name='tip', value='attendee', data-toggle='radio')
+          input(type='radio', checked=edituser.profile.tip=='attendee', name='tip', value='attendee', data-toggle='radio')
           span Attendee
         label.radio.col-sm-3
-          input(type='radio', checked=user.profile.tip=='moderator', name='tip', value='moderator', data-toggle='radio')
+          input(type='radio', checked=edituser.profile.tip=='moderator', name='tip', value='moderator', data-toggle='radio')
           span Moderator
         label.radio.col-sm-3
-          input(type='radio', checked=user.profile.tip=='admin', name='tip', value='admin', data-toggle='radio')
+          input(type='radio', checked=edituser.profile.tip=='admin', name='tip', value='admin', data-toggle='radio')
           span Admin
     .form-group
       label.col-sm-3.control-label(for='xml') XML
       .col-sm-7
-        textarea.form-control(type='text', name='xml', id='xml', rows='12', placeholder='Custom XML if aplicable' ) #{user.profile.xml}
+        textarea.form-control(type='text', name='xml', id='xml', rows='12', placeholder='Custom XML if aplicable' ) #{edituser.profile.xml}
     .form-group
       .col-sm-offset-3.col-sm-4
         button.btn.btn.btn-primary(type='submit')
@@ -45,7 +45,7 @@ block content
   .page-header
     h3 Change Password
 
-  form.form-horizontal(action='/account/password', method='POST')
+  form.form-horizontal(action='/account/password/#{edituser._id}', method='POST')
     input(type='hidden', name='_csrf', value=_csrf)
     .form-group
       label.col-sm-3.control-label(for='password') New Password
@@ -64,13 +64,13 @@ block content
   .page-header
     h3 Delete Account
 
-  form.form-horizontal(action='/account/delete', method='POST')
+  form.form-horizontal(action='/account/delete/#{edituser._id}', method='POST')
     .form-group
       p.col-sm-offset-3.col-sm-4 You can delete your account, but keep in mind this action is irreversible.
       input(type='hidden', name='_csrf', value=_csrf)
       .col-sm-offset-3.col-sm-4
         button.btn.btn-danger(type='submit')
           i.fa.fa-trash
-          | Delete my account
+          | Delete account
 
  

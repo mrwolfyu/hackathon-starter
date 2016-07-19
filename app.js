@@ -32,6 +32,7 @@ dotenv.load({ path: '.env' });
 const homeController = require('./controllers/home');
 const adminController = require('./controllers/admin');
 const userController = require('./controllers/user');
+const roomController = require('./controllers/room');
 const contactController = require('./controllers/contact');
 
 /**
@@ -114,18 +115,20 @@ app.get('/admin',  passportConfig.isAdmin, adminController.index);
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
 app.get('/logout', userController.logout);
-//app.get('/forgot', userController.getForgot);
-//app.post('/forgot', userController.postForgot);
-//app.get('/reset/:token', userController.getReset);
-//app.post('/reset/:token', userController.postReset);
+app.get('/roomc',  passportConfig.isAdmin, roomController.getRoom);
 app.get('/signup',  passportConfig.isAdmin, userController.getSignup);
+app.post('/roomc',  passportConfig.isAdmin, roomController.postRoom);
 app.post('/signup',  passportConfig.isAdmin, userController.postSignup);
-app.get('/contact', contactController.getContact);
-app.post('/contact', contactController.postContact);
-app.get('/account', passportConfig.isAuthenticated, userController.getAccount);
+app.get('/account', passportConfig.isAdmin, userController.getAccount);
+app.get('/account/:id', passportConfig.isAdmin, userController.getAccountById);
+app.get('/roomc/:id', passportConfig.isAdmin, roomController.getRoomById);
 app.post('/account/profile', passportConfig.isAuthenticated, userController.postUpdateProfile);
+app.post('/account/profile/:id', passportConfig.isAdmin, userController.postUpdateProfileById);
+app.post('/roomc/:id', passportConfig.isAdmin, roomController.postRoomById);
 app.post('/account/password', passportConfig.isAuthenticated, userController.postUpdatePassword);
-app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
+app.post('/account/password/:id', passportConfig.isAdmin, userController.postUpdatePasswordById);
+app.post('/account/delete', passportConfig.isAdmin, userController.postDeleteAccount);
+app.post('/account/delete/:id', passportConfig.isAdmin, userController.postDeleteAccountById);
 
 /**
  * Error Handler.
