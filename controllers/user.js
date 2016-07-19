@@ -47,6 +47,10 @@ exports.postLogin = (req, res, next) => {
     });
   })(req, res, next);
 
+<<<<<<< HEAD
+=======
+console.log("adasd");
+>>>>>>> 67b9ce769abec1be0316d6b17c74252fccefe70d
 };
 
 /**
