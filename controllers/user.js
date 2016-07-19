@@ -47,7 +47,6 @@ exports.postLogin = (req, res, next) => {
     });
   })(req, res, next);
 
-console.log("adasd");
 };
 
 /**
