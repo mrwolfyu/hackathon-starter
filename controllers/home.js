@@ -15,26 +15,9 @@ exports.index = (req, res) => {
 	res.redirect('/admin');
   }
   else {
-<<<<<<< HEAD
-    bbb.url = config.BBB_URL;
-    bbb.salt = config.BBB_SECRET;
-    
-
-    data = {
-        action: 'getMeetings'
-    };
-
-
-    
     res.render('home', {
         title: 'Home',
         admin: 'no',
-     
-=======
-    res.render('home', {
-        title: 'Home',
-        admin: 'no',
->>>>>>> 67b9ce769abec1be0316d6b17c74252fccefe70d
         LOCATION: config.LOCATION
      });
     }
