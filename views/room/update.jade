@@ -1,0 +1,60 @@
+extends ../layout
+
+block content
+  .page-header
+    h3 Update room / meeting
+  form.form-horizontal(id='createroom-form', method='POST')
+    input(type='hidden', name='_csrf', value=_csrf)
+    .form-group
+      label.col-sm-3.control-label(for='name') Meeting Name
+      .col-sm-7
+        input.form-control(type='text', name='name', id='name', value='#{room.name}',placeholder='Name', autofocus, required)
+    .form-group
+      label.col-sm-3.control-label(for='meetingID') MeetingID
+      .col-sm-7
+        input.form-control(type='text', name='meetingID', id='meetingID',value='#{room.meetingID}'  placeholder='meetingID', required)
+    .form-group
+      label.col-sm-3.control-label(for='recordID') RecordID
+      .col-sm-7
+        input.form-control(type='text', name='recordID', id='recordID', value='#{room.recordID}', placeholder='recordID', required)
+    .form-group
+      label.col-sm-3.control-label(for='attendeePW') AttendeePW
+      .col-sm-7
+        input.form-control(type='text', name='attendeePW', id='attendeePW', value='#{room.attendeePW}'  placeholder='attendeePW', required)
+    .form-group
+      label.col-sm-3.control-label(for='moderatorPW') ModeratorPW
+      .col-sm-7
+        input.form-control(type='text', name='moderatorPW', id='moderatorPW', value='#{room.moderatorPW}' placeholder='moderatorPW', required)
+    .form-group
+      label.col-sm-3.control-label(for='fullName') Full Name
+      .col-sm-7
+        input.form-control(type='text', name='fullName', id='fullName', value='#{room.fullName}',  placeholder='fullName', required)
+    .form-group
+      label.col-sm-3.control-label(for='tip') Record
+      .col-sm-6
+        label.checkbox.col-sm-4
+          input(type='checkbox',checked=room.record=='record', name='record', value='record', id='record')
+          span record
+        label.checkbox.col-sm-4
+          input(type='checkbox', checked=room.autoStartRecording=='autoStartRecording', name='autoStartRecording', value='autoStartRecording', id='autoStartRecording')
+          span autoStartRecording
+        label.checkbox.col-sm-4
+          input(type='checkbox', checked=room.allowStartStopRecording=='allowStartStopRecording', name='allowStartStopRecording', value='allowStartStopRecording', id='allowStartStopRecording')
+          span allowStartStopRecording
+        label.checkbox.col-sm-4
+          input(type='checkbox', checked=room.publish=='publish',name='publish', value='publish', id='publish')
+          span publish
+    .form-group
+      label.col-sm-3.control-label(for='welcomemsg') Welcome message
+      .col-sm-7
+        textarea.form-control(type='text', name='welcomemsg', id='welcomemsg', value='#{room.welcomemsg}' rows='12',  placeholder='Custom Welcome message if aplicable')
+    .form-group
+      label.col-sm-3.control-label(for='xml') Custom XML
+      .col-sm-7
+        textarea.form-control(type='text', name='xml', id='xml', rows='12', value='#{room.xml}', placeholder='Custom XML if aplicable')
+    .form-group
+      .col-sm-offset-3.col-sm-7
+        button.btn.btn.btn-primary(type='submit')
+          i.fa.fa-pencil
+          | Update
+
