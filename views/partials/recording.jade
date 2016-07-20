@@ -1,0 +1,12 @@
+table.table.table-hover.table-bordered
+   thead
+     tr
+       th Record Id
+       th Meeting Id
+       th Action
+   each recording, i in recordings
+     tr
+       td #{recording.recordID}
+       td #{recording.meetingID}
+       td
+         a.i.fa.fa-info(href='/recording/#{recording.recordID}')

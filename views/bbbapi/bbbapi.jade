@@ -1,0 +1,15 @@
+extends ../layout
+
+block content
+  h1 Meteo Briefing Box
+  h2 #{LOCATION}
+  hr
+  .row
+    .col-sm-6
+      h3 Meetings
+      p
+        include ../partials/meeting
+    .col-sm-6
+      h3 Recordings
+      p
+        include ../partials/recording
