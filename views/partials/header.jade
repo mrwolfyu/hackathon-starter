@@ -18,6 +18,12 @@
           if admin=='admin'
             li(class=(title == 'Admin') ? 'active' : undefined)
               a(href='/admin') Admin
+            li(class=(title == 'BBB') ? 'active' : undefined)
+              a(href='/bbb') BBB
+            li(class=(title == 'meeting') ? 'active' : undefined)
+              a(href='/meeting') meetings
+            li(class=(title == 'recording') ? 'active' : undefined)
+              a(href='/recording') recordings
       ul.nav.navbar-nav.navbar-right
         if !user
           li(class=(title == 'Login') ? 'active' : undefined)

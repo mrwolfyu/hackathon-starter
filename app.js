@@ -33,6 +33,7 @@ const adminController = require('./controllers/admin');
 const userController = require('./controllers/user');
 const roomController = require('./controllers/room');
 const contactController = require('./controllers/contact');
+const bbbController = require('./controllers/bbb');
 
 /**
  * API keys and Passport configuration.
@@ -115,6 +116,11 @@ app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
 app.get('/logout', userController.logout);
 app.get('/roomc',  passportConfig.isAdmin, roomController.getRoom);
+app.get('/bbb',  passportConfig.isAdmin, bbbController.index);
+app.get('/recording',  passportConfig.isAdmin, bbbController.getRecordings);
+app.get('/recording/:id',  passportConfig.isAdmin, bbbController.getRecordingsById);
+app.get('/meeting/:id',  passportConfig.isAdmin, bbbController.getMeetingsById);
+app.get('/meeting',  passportConfig.isAdmin, bbbController.getMeetings);
 app.get('/signup',  passportConfig.isAdmin, userController.getSignup);
 app.post('/roomc',  passportConfig.isAdmin, roomController.postRoom);
 app.post('/signup',  passportConfig.isAdmin, userController.postSignup);
