@@ -1,13 +1,12 @@
 table.table.table-hover.table-bordered
    thead
      tr
-       th Id/Name
-       th Type
+       th Name
        th Action
    each meeting, i in meetings
      tr
-       td #{meeting.meetingID} / #{meeting.meetingName}
-       td #{meeting.meetingID}
+       td #{meeting.meetingName}
        td
          a.i.fa.fa-info(href='/meeting/#{meeting.meetingID}')
+         a.i.fa.fa-trash(href='/meetingdelete/#{meeting.meetingID}')
 

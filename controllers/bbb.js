@@ -8,29 +8,16 @@ const config = require('../.config.json');
 const crypto = require('crypto');
 const request = require('request');
 const parser = require('xml2json');
+const moment = require('moment');
+const utils = require('./utils');
 
-urlbuilder = (action, params) => {
-    var shasum = crypto.createHash('sha1');
-    var ret = config.BBB_URL;
-    if (! ret.indexOf('api') >= 0) {
-        ret = config.BBB_URL + 'api/';
-    } 
-    shasum.update(action+params+config.BBB_SECRET);
-    if(params == '') {return ret + action + '?' + 'checksum='+shasum.digest('hex'); }
-    
-    return ret + action + '?' + params + '&checksum='+shasum.digest('hex');
-}
 
 exports.index = (req, res) => {
     var meetings = [];
     var recordings = [];
-    var url = urlbuilder('getMeetings','');
-    //console.log('******* ' + url);
+    var url = utils.urlbuilder('getMeetings','');
     request(url, function (error, response, bodym) {
-
-
       if (!error && response.statusCode == 200) {
-
             var meetings = (JSON.parse(parser.toJson(bodym))).response.meetings;
 
             if (!meetings){
@@ -38,7 +25,7 @@ exports.index = (req, res) => {
             };
         
             
-            var url = urlbuilder('getRecordings','');
+            var url = utils.urlbuilder('getRecordings','');
             request(url, function (error, response, body) {
             if (!error && response.statusCode == 200) {
                 recordings = (JSON.parse(parser.toJson(body))).response.recordings.recording;
@@ -48,6 +35,7 @@ exports.index = (req, res) => {
                     res.render('bbbapi/bbbapi', {
                         title: 'BBB',
                         meetings: meetings,
+                        moment: moment,
                         recordings: recordings,
                         admin: 'admin',
                         LOCATION: config.LOCATION
@@ -69,17 +57,19 @@ exports.index = (req, res) => {
 
 exports.getRecordings = (req, res) => {
     var recordings = [];
-    var url = urlbuilder('getRecordings','');
+    var url = utils.urlbuilder('getRecordings','');
     request(url, function (error, response, body) {
     if (!error && response.statusCode == 200) {
         recordings = (JSON.parse(parser.toJson(body))).response.recordings.recording;
             if(!recordings) {
                 recordings = [];
             }
+            console.log(moment( 1469043138982 ).format('M/D/YYYY H:mm:ss').toString());
             res.render('bbbapi/recording', {
                 title: 'recording',
                 recordings: recordings,
                 admin: 'admin',
+                moment: moment,
                 LOCATION: config.LOCATION
             });
 
@@ -92,12 +82,11 @@ exports.getRecordings = (req, res) => {
 
 exports.getMeetingsById = (req, res) => {
     var meetings = [];
-    var url = urlbuilder('getMeetingInfo','meetingID='+req.params.id+'&password=mp');
+    var url = utils.urlbuilder('getMeetingInfo','meetingID='+req.params.id);
     request(url, function (error, response, body) {
     if (!error && response.statusCode == 200) {
         var jsons = parser.toJson(body);
         meetings = (JSON.parse(jsons)).response;
-console.log(meetings);
             if(!meetings) {
                 meetings = [];
             }
@@ -118,10 +107,15 @@ console.log(meetings);
       });
 };
 
+exports.deleteMeetingsById = (req, res) => {
+
+    utils.bbbend(req,res);
+};
+
 
 exports.getRecordingsById = (req, res) => {
     var recordings = [];
-    var url = urlbuilder('getRecordings','recordID='+req.params.id);
+    var url = utils.urlbuilder('getRecordings','recordID='+req.params.id);
     request(url, function (error, response, body) {
     if (!error && response.statusCode == 200) {
         var jsons = parser.toJson(body);
@@ -147,7 +141,7 @@ exports.getRecordingsById = (req, res) => {
 
 exports.getMeetings = (req, res) => {
     var meetings;
-    var url = urlbuilder('getMeetings','');
+    var url = utils.urlbuilder('getMeetings','');
     request(url, function (error, response, body) {
     if (!error && response.statusCode == 200) {
         meetings = (JSON.parse(parser.toJson(body))).response.meetings;
@@ -164,4 +158,32 @@ exports.getMeetings = (req, res) => {
             }
       });
 };
+
+exports.playRecordingsById = (req, res) => {
+    var recordings = [];
+    var recordID = req.params.id;
+    var orig = req.params.orig;
+    var BBB_VIDEO = 'http://' + config.BBB_IP + config.BBB_VIDEO.replace('SUBrecordID', recordID); 
+    var url = utils.urlbuilder('getRecordings','recordID='+ recordID);
+    request(url, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+        var jsons = parser.toJson(body);
+        recordings = (JSON.parse(jsons)).response.recordings.recording;
+        if(!recordings) {
+            recordings = [];
+        }
+        if( orig == 'video' ) {
+            return res.redirect(BBB_VIDEO);
+        }
+        if( orig == 'custom') {
+            return res.redirect('/bbb');
+        }  
+        return res.redirect(recordings.playback.format.url);
+      } else {
+            //console.log("jeb ga *****");
+            req.flash('errors', { msg: 'ERROR! Can\'t run getRecordings.' }); 
+            }
+      });
+};
+
 

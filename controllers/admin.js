@@ -7,6 +7,7 @@
 var config = require('../.config.json')
 const User = require('../models/User'); 
 const Room = require('../models/Room');
+const utils = require('./utils');
 
 exports.index = (req, res) => {
   User.find({}, function (err, user){  
@@ -23,3 +24,27 @@ exports.index = (req, res) => {
 
   }); 
 };
+
+exports.join = (req, res) => {
+
+    Room.findById(req.user.profile.roomID, function (err, room){
+
+                return utils.bbbjoin(req,res, room);
+
+            });
+
+    return res.redirect('/admin');
+};
+
+exports.create = (req, res) => {
+
+    Room.findById(req.user.profile.roomID, function (err, room){
+
+                return utils.bbbcreate(req,res,room);
+
+            });
+return;
+//    return res.redirect('/admin');
+};
+
+

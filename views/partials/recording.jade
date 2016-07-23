@@ -1,12 +1,18 @@
+-  function tosrt(s) { return moment( parseInt(s.toString().trim()) ).format('DD/MM/YYYY HH:mm:ss').toString(); };
 table.table.table-hover.table-bordered
    thead
      tr
-       th Record Id
-       th Meeting Id
+       th MeetingID
+       th StartTime
+       th EndTime
        th Action
    each recording, i in recordings
      tr
-       td #{recording.recordID}
        td #{recording.meetingID}
+       td #{tosrt(recording.startTime)}
+       td #{tosrt(recording.endTime)}
        td
          a.i.fa.fa-info(href='/recording/#{recording.recordID}')
+         a.i.fa.fa-play(href='/play/#{recording.recordID}/default')
+         a.i.fa.fa-play(href='/play/#{recording.recordID}/video')
+         a.i.fa.fa-play(href='/play/#{recording.recordID}/custom')

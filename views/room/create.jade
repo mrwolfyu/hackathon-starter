@@ -20,11 +20,11 @@ block content
     .form-group
       label.col-sm-3.control-label(for='attendeePW') AttendeePW
       .col-sm-7
-        input.form-control(type='text', name='attendeePW', id='attendeePW',  placeholder='attendeePW', required)
+        input.form-control(type='text', name='attendeePW', id='attendeePW',  placeholder='attendeePW', value='', required)
     .form-group
       label.col-sm-3.control-label(for='moderatorPW') ModeratorPW
       .col-sm-7
-        input.form-control(type='text', name='moderatorPW', id='moderatorPW',  placeholder='moderatorPW', required)
+        input.form-control(type='text', name='moderatorPW', id='moderatorPW',  placeholder='moderatorPW', value='', required)
     .form-group
       label.col-sm-3.control-label(for='fullName') Full Name
       .col-sm-7
@@ -42,7 +42,7 @@ block content
           input(type='checkbox', name='allowStartStopRecording', value='allowStartStopRecording', id='allowStartStopRecording')
           span allowStartStopRecording
         label.checkbox.col-sm-4
-          input(type='checkbox', name='publish', value='publish', id='publish')
+          input(type='checkbox', checked=true, name='publish', value='publish', id='publish')
           span publish
     .form-group
       label.col-sm-3.control-label(for='welcomemsg') Welcome message

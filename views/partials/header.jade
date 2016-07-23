@@ -34,7 +34,7 @@
               li(class=(title ==  (user.profile.name || user.email || user.id) ) ? 'active' : undefined)
                  a(href='/') #{user.profile.name || user.email || user.id}
               li(class=(title == 'My Account Management' ) ? 'active' : undefined)
-                 a(href='/account') My Account
+                 a(href='/account/#{user.id}') My Account
               li(class=(title == 'Logout') ? 'active' : undefined)
                  a(href='/logout') Logout
             else

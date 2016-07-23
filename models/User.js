@@ -8,7 +8,8 @@ const userSchema = new mongoose.Schema({
   profile: {
     name: { type: String, default: '' },
     tip: { type: String, default: '' },
-    xml: { type: String, default: '' }
+    xml: { type: String, default: '' },
+    roomID: { type: String, default: '' }
   }
 }, { timestamps: true });
 

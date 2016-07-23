@@ -112,6 +112,8 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }))
  */
 app.get('/', passportConfig.isAuthenticated, homeController.index);
 app.get('/admin',  passportConfig.isAdmin, adminController.index);
+app.get('/admin/create',  passportConfig.isAdmin, adminController.create);
+app.get('/admin/join',  passportConfig.isAdmin, adminController.join);
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
 app.get('/logout', userController.logout);
@@ -119,15 +121,16 @@ app.get('/roomc',  passportConfig.isAdmin, roomController.getRoom);
 app.get('/bbb',  passportConfig.isAdmin, bbbController.index);
 app.get('/recording',  passportConfig.isAdmin, bbbController.getRecordings);
 app.get('/recording/:id',  passportConfig.isAdmin, bbbController.getRecordingsById);
+app.get('/play/:id/:orig',  passportConfig.isAdmin, bbbController.playRecordingsById);
 app.get('/meeting/:id',  passportConfig.isAdmin, bbbController.getMeetingsById);
+app.get('/meetingdelete/:id',  passportConfig.isAdmin, bbbController.deleteMeetingsById);
 app.get('/meeting',  passportConfig.isAdmin, bbbController.getMeetings);
 app.get('/signup',  passportConfig.isAdmin, userController.getSignup);
 app.post('/roomc',  passportConfig.isAdmin, roomController.postRoom);
 app.post('/signup',  passportConfig.isAdmin, userController.postSignup);
-app.get('/account', passportConfig.isAdmin, userController.getAccount);
+//app.get('/account', passportConfig.isAdmin, userController.getAccount);
 app.get('/account/:id', passportConfig.isAdmin, userController.getAccountById);
 app.get('/roomc/:id', passportConfig.isAdmin, roomController.getRoomById);
-app.post('/account/profile', passportConfig.isAuthenticated, userController.postUpdateProfile);
 app.post('/account/profile/:id', passportConfig.isAdmin, userController.postUpdateProfileById);
 app.post('/roomc/:id', passportConfig.isAdmin, roomController.postRoomById);
 app.post('/account/password', passportConfig.isAuthenticated, userController.postUpdatePassword);

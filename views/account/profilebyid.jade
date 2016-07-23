@@ -17,9 +17,9 @@ block content
     .form-group
       label.col-sm-3.control-label(for='select') Bind Room
       .col-sm-7
-        select
+        select(id='roomID', name='roomID')
           each room, i in rooms
-            option #{room.name}
+            option(value='#{room._id}', label='#{room.name}') #{room.name}
     .form-group
       label.col-sm-3.control-label(for='tip') Type
       .col-sm-6
