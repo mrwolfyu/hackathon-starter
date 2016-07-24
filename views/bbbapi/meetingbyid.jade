@@ -1,20 +1,7 @@
 extends ../layout
-mixin parseObject(obj)
-  div
-    if typeof obj != 'undefined' 
-      each val, key in obj
-        if typeof val === 'string'
-          span 
-            p #{key} : #{val}
-        else if typeof val === 'object'
-          span
-            p #{key} ->
-          mixin parseObject(val)
-
 block content
   h1 Meteo Briefing Box
   h2 #{LOCATION}
   hr
   h3 Recording detail
-  p
-    mixin parseObject(meetings)
+  pre !{JSON.stringify(meetings,null,4)}

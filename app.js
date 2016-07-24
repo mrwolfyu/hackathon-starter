@@ -111,9 +111,9 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }))
  * Primary app routes.
  */
 app.get('/', passportConfig.isAuthenticated, homeController.index);
-app.get('/admin',  passportConfig.isAdmin, adminController.index);
-app.get('/admin/create',  passportConfig.isAdmin, adminController.create);
-app.get('/admin/join',  passportConfig.isAdmin, adminController.join);
+app.get('/admin',  passportConfig.isAdmin, homeController.adminindex);
+app.get('/admin/create',  passportConfig.isAdmin, homeController.create);
+app.get('/admin/join',  passportConfig.isAdmin, homeController.join);
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
 app.get('/logout', userController.logout);

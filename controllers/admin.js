@@ -31,9 +31,10 @@ exports.join = (req, res) => {
 
                 return utils.bbbjoin(req,res, room);
 
+
+
             });
 
-    return res.redirect('/admin');
 };
 
 exports.create = (req, res) => {

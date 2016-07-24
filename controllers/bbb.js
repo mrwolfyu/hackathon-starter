@@ -41,15 +41,12 @@ exports.index = (req, res) => {
                         LOCATION: config.LOCATION
                     });
 
-                //console.log(recordings[0].playback);
               } else {
-                    console.log("jeb ga *****");
-                    req.flash('errors', { msg: 'ERROR! Can\'t run getRedordings.' })
+                    req.flash('errors', { msg: 'ERROR! Can\'t run getRedordings.' });
                        }
                 });
 
       } else {
-            console.log("jeb ga *****");
             req.flash('errors', { msg: 'ERROR! Can\'t run getMeetings.' })
        } 
     });
@@ -64,7 +61,6 @@ exports.getRecordings = (req, res) => {
             if(!recordings) {
                 recordings = [];
             }
-            console.log(moment( 1469043138982 ).format('M/D/YYYY H:mm:ss').toString());
             res.render('bbbapi/recording', {
                 title: 'recording',
                 recordings: recordings,
@@ -74,42 +70,40 @@ exports.getRecordings = (req, res) => {
             });
 
       } else {
-            //console.log("jeb ga *****");
             req.flash('errors', { msg: 'ERROR! Can\'t run getRecordings.' }); 
             }
       });
 };
 
 exports.getMeetingsById = (req, res) => {
-    var meetings = [];
-    var url = utils.urlbuilder('getMeetingInfo','meetingID='+req.params.id);
-    request(url, function (error, response, body) {
-    if (!error && response.statusCode == 200) {
-        var jsons = parser.toJson(body);
-        meetings = (JSON.parse(jsons)).response;
-            if(!meetings) {
-                meetings = [];
-            }
-            //res.redirect('/meeting');
-            //return;
+
+    utils.bbbgetMeetingsById(req.params.id, (err, meetings) => {
+        if(err) {
+            req.flash('errors', { msg: 'ERROR! Can\'t run getMeetings.' });
+        } else {
             res.render('bbbapi/meetingbyid', {
                 title: 'meeting',
                 meetings: meetings,
-                json: jsons,
+                json: JSON.stringify(meetings, null, 4),
                 admin: 'admin',
                 LOCATION: config.LOCATION
             });
-
-      } else {
-            //console.log("jeb ga *****");
-            req.flash('errors', { msg: 'ERROR! Can\'t run getMeetings.' }); 
-            }
-      });
+        }
+    });
 };
 
 exports.deleteMeetingsById = (req, res) => {
 
-    utils.bbbend(req,res);
+    utils.bbbend(req.params.id, (err, next) => {
+        if(err) {
+            req.flash('errors', { msg: 'ERROR! Can\'t delete getMeeting.' });
+            return res.redirect('/meeting');
+        }
+        else {
+            req.flash('success', { msg: 'Meeting deleted.' });
+            return res.redirect('/meeting');
+       }
+    });
 };
 
 
@@ -133,7 +127,6 @@ exports.getRecordingsById = (req, res) => {
             });
 
       } else {
-            //console.log("jeb ga *****");
             req.flash('errors', { msg: 'ERROR! Can\'t run getRecordings.' }); 
             }
       });
@@ -152,7 +145,6 @@ exports.getMeetings = (req, res) => {
                 LOCATION: config.LOCATION
             });
       } else {
-            //console.log("jeb ga *****");
             req.flash('errors', { msg: 'ERROR! Can\'t run getMeetings.' }); 
             
             }
@@ -180,7 +172,6 @@ exports.playRecordingsById = (req, res) => {
         }  
         return res.redirect(recordings.playback.format.url);
       } else {
-            //console.log("jeb ga *****");
             req.flash('errors', { msg: 'ERROR! Can\'t run getRecordings.' }); 
             }
       });
