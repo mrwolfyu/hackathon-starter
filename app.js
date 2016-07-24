@@ -29,7 +29,7 @@ dotenv.load({ path: '.env' });
  * Controllers (route handlers).
  */
 const homeController = require('./controllers/home');
-const adminController = require('./controllers/admin');
+const adminController = require('./controllers/api/admin');
 const userController = require('./controllers/user');
 const roomController = require('./controllers/room');
 const contactController = require('./controllers/contact');
@@ -112,6 +112,7 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }))
  */
 app.get('/', passportConfig.isAuthenticated, homeController.index);
 app.get('/admin',  passportConfig.isAdmin, homeController.adminindex);
+app.get('/api/admin/:id',  passportConfig.isAdmin, adminController.index);
 app.get('/admin/create',  passportConfig.isAdmin, homeController.create);
 app.get('/admin/join',  passportConfig.isAdmin, homeController.join);
 app.get('/login', userController.getLogin);

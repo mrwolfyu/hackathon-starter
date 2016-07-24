@@ -46,3 +46,12 @@ block content
           a.button.btn.btn-primary(href='/roomc')
             i.fa.fa-plus
             | Add Meetting
+   .row 
+    .col-sm-6
+      h2 Users
+      table(data-toggle="table" data-url='/api/admin/getusers')
+        thead
+          tr
+            th(data-field='username') Username
+            th(data-field='profile.name') Fullname
+            th(data-field='profile.tip') Type
