@@ -106,7 +106,7 @@ app.use(function(req, res, next) {
   next();
 });
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
-
+app.use('/bower_components',  express.static(__dirname + '/bower_components'));
 /**
  * Primary app routes.
  */
