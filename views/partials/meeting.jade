@@ -5,11 +5,14 @@ table.table.table-hover.table-bordered(table-layout='auto' style='widht:100%')
        th Action
    each meeting, i in meetings
      tr
-       td #{meeting.meetingName}
+       td #{meeting.meetingName} 
        td(style='width:1%; white-space:nowrap;')
          a.btn.btn-info(href='/meeting/#{meeting.meetingID}' style='padding: 4px;margin-right:5px; border-radius:4px;')
            i.fa.fa-info INFO
            span.sr-only DETAIL INFO
+         a.btn.btn-warning(href='/admin/joinbymid/#{meeting.meetingID}' style='padding: 4px; margin-right:5px; border-radius:4px;')
+           i.fa.fa-check JOIN
+           span.sr-only JOIN
          a.btn.btn-danger(href='/meetingdelete/#{meeting.meetingID}' style='padding: 4px;border-radius:4px;')
            i.fa.fa-trash DELETE
            span.sr-only DELETE

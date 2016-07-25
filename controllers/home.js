@@ -72,13 +72,23 @@ exports.adminindex = (req, res) => {
 };
 
 exports.join = (req, res) => {
-    Room.findById(req.user.profile.roomID, function (err, room){
+    Room.findById(req.params.id, function (err, room){
         createandjoin(req, res,room);
     });            
 };
 
+exports.joinbymid = (req, res) => {
+    utils.bbbgetMeetingsById(req.params.id, (err, meetings) => {
+        if(err) return req.flash('errors', { msg: 'ERROR! Can\'t get meeting.' });
+        else {
+            Room.findById(meetings.metadata.roomid, function (err, room){
+                createandjoin(req, res,room);
+            });   
+        }
+    });         
+};
 exports.create = (req, res) => {
-    Room.findById(req.user.profile.roomID, function (err, room){
+    Room.findById(req.params.id, function (err, room){
         utils.bbbcreate(req, res, room ,(err) =>{
             if(err) { req.flash('errors', { msg: 'ERROR! Can\'t create the meeting.' });}
             else {
@@ -105,8 +115,7 @@ exports.index = (req, res) => {
     if(req.user.profile.tip === 'moderator' || req.user.profile.tip === 'attendee') {
             Room.findById(req.user.profile.roomID, function (err, room){
                 createandjoin(req, res,room);  
-            });
- 
+            }); 
     }
   }
 };

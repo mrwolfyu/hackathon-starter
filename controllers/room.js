@@ -50,6 +50,7 @@ exports.postRoom = (req, res, next) => {
     room.allowStartStopRecording = req.body.allowStartStopRecording || '';
     room.recordID = req.body.recordID || '';
     room.xml = req.body.xml || '';
+    room.author = req.body.author || '';
     room.attendeePW = req.body.attendeePW || '';
     room.fullName = req.body.fullName || '';
     room.publish = req.body.publish || '';
@@ -93,6 +94,7 @@ exports.postRoomById = (req, res, next) => {
     room.allowStartStopRecording = req.body.allowStartStopRecording || '';
     room.recordID = req.body.recordID || '';
     room.xml = req.body.xml || '';
+    room.author = req.body.author || '';
     room.fullName = req.body.fullName || '';
     room.publish = req.body.publish || '';
     room.attendeePW = req.body.attendeePW || '';

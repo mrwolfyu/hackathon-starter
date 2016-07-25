@@ -24,7 +24,9 @@ bbbcreate = exports.bbbcreate = (req, res, room , next) => {
                       +'&welcome=' + xform.encode(room.welcome)
                       +'&meta_currentDate=' + xform.encode(Date().toString())
                       +'&meta_org=SMATSA'
-                      + xform.encode('&meta_author=Marko Dzida')
+                      +'&meta_roomID=' + xform.encode(room._id)
+                      +'&meta_roomfullName=' + xform.encode(room.fullName)
+                      +'&meta_author=' + xform.encode(room.author)
                       +"&allowStartStopRecording=false&autoStartRecording=true&record=true";
             
                 url = urlbuilder('create',params);
@@ -102,7 +104,8 @@ bbbgetMeetings = exports.bbbgetMeetings = (next) => {
     request({url: url, method: 'POST'}, function (error, response, body) {
     if (!error && response.statusCode == 200) {
         meetings = (JSON.parse(parser.toJson(body))).response.meetings;
-        return next('',meetings);    
+        console.log(meetings);
+        return next('', meetings);    
       } else {
             return next(error);
             }

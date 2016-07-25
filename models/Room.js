@@ -9,6 +9,7 @@ const roomSchema = new mongoose.Schema({
   moderatorPW: { type: String, default: '' },
   fullName: { type: String, default: '' },
   name: { type: String, default: '' },
+  author: { type: String, default: '' },
   welcome: { type: String, default: '' },
   record: { type: String, default: '' },
   publish: { type: String, default: '' },
