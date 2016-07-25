@@ -17,14 +17,14 @@ bbbcreate = exports.bbbcreate = (req, res, room , next) => {
         var roompw=room.attendeePW;
         if( req.user.profile.tip  === 'moderator' || req.user.profile.tip  === 'admin' ) {roompw=room.moderatorPW;}
                 //CREATE
-                params='meetingID='+ encodeURIComponent(room.meetingID)
-                      +'&name='+ encodeURIComponent(room.fullName)
-                      +'&moderatorPW='+ encodeURIComponent(room.moderatorPW)
-                      +'&attendeePW='+ encodeURIComponent(room.attendeePW)
-                      +'&welcome=' + encodeURIComponent(room.welcome)
-                      +'&meta_currentDate=' + encodeURIComponent(Date().toString()),
+                params='meetingID='+ xform.encode(room.meetingID)
+                      +'&name='+ xform.encode(room.fullName)
+                      +'&moderatorPW='+ xform.encode(room.moderatorPW)
+                      +'&attendeePW='+ xform.encode(room.attendeePW)
+                      +'&welcome=' + xform.encode(room.welcome)
+                      +'&meta_currentDate=' + xform.encode(Date().toString()),
                       +'&meta_org=SMATSA',
-                      + encodeURIComponent('&meta_author=Marko Dzida'),
+                      + xform.encode('&meta_author=Marko Dzida'),
                       +"&allowStartStopRecording=false&autoStartRecording=true&record=true";
             
                 url = urlbuilder('create',params);
@@ -48,18 +48,19 @@ exports.bbbjoin = (req, room, next) => {
                 roompw=room.moderatorPW;
             }
             if( req.user.profile.xml != '' ) {
-                var url = urlbuilder('setConfigXML', 'configXML='+ xform.encode(req.user.profile.xml)+'&meetingID=' + room.meetingID);
+                var url = urlbuilder('setConfigXML', 'configXML='+ xform.encode(req.user.profile.xml)+'&meetingID=' + xform.encode(room.meetingID));
 
                 request({url: url, method:'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'} } , (error, response, body) => {
                     if(error) return next(error);
                     var token = JSON.parse(parser.toJson(body)).response.configToken;
-                    url = urlbuilder('join','meetingID='+room.meetingID+'&password='+ room.moderatorPW 
-                                        + '&configToken=' + token +'&fullName='+req.user.profile.name+'&redirect=true');
+                    url = urlbuilder('join','meetingID='+xform.encode(room.meetingID)+'&password='+ xform.encode(roompw)
+                                        + '&configToken=' + token +'&fullName='+xform.encode(req.user.profile.name)+'&redirect=true');
                     return next('', url);
                 });
 
             } else {
-                url = urlbuilder('join','meetingID='+room.meetingID+'&password='+ roompw + '&fullName=' + req.user.profile.name +'&redirect=true');
+                url = urlbuilder('join','meetingID='+xform.encode(room.meetingID)
+                                    +'&password='+  xform.encode(roompw) + '&fullName=' + xform.encode(req.user.profile.name) +'&redirect=true');
                 return next('', url);
             }
         }
@@ -81,7 +82,7 @@ bbbgetDefaultConfigXML = exports.bbbgetDefaultConfigXML= ( next) => {
 
 bbbgetMeetingsById = exports.bbbgetMeetingsById = ( id, next) => {
     var meetings = [];
-    var url = urlbuilder('getMeetingInfo','meetingID='+id);
+    var url = urlbuilder('getMeetingInfo','meetingID='+xform.encode(id));
     request({url: url, method: 'POST'}, function (error, response, body) {
         if (!error && response.statusCode == 200 ) {
             var jsons = parser.toJson(body);
@@ -122,7 +123,7 @@ exports.bbbgetRecordings = (next) => {
 };
 exports.bbbgetRecordingsById = (id, next) => {
     var recordings = [];
-    var url = urlbuilder('getRecordings','recordID='+id);
+    var url = urlbuilder('getRecordings','recordID='+xform.encode(id));
     request({url: url, method: 'POST'}, function (error, response, body) {
     if (!error && response.statusCode == 200) {
         var jsons = parser.toJson(body);
@@ -138,7 +139,7 @@ exports.bbbend = (id, next) => {
     bbbgetMeetingsById(id, (err, meetings) => {
         if(err) { return next(err);}
         else {
-            var url = urlbuilder('end','meetingID='+ meetings.meetingID + "&password="+meetings.moderatorPW);
+            var url = urlbuilder('end','meetingID='+ xform.encode(meetings.meetingID) + "&password="+xform.encode(meetings.moderatorPW));
             request({url: url, method: 'POST'}, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
                     if ((JSON.parse(parser.toJson(body))).response.returncode == 'FAILED') {return next("ERROR");}
