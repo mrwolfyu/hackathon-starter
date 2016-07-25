@@ -95,6 +95,45 @@ bbbgetMeetingsById = exports.bbbgetMeetingsById = ( id, next) => {
       });
 };
 
+bbbgetMeetings = exports.bbbgetMeetings = (next) => {
+    var meetings;
+    var url = urlbuilder('getMeetings','');
+    request({url: url, method: 'POST'}, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+        meetings = (JSON.parse(parser.toJson(body))).response.meetings;
+        return next('',meetings);    
+      } else {
+            return next(error);
+            }
+      });
+};
+
+exports.bbbgetRecordings = (next) => {
+    var recordings = [];
+    var url = urlbuilder('getRecordings','');
+    request({url: url, method: 'POST'}, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+        recordings = (JSON.parse(parser.toJson(body))).response.recordings.recording;
+        return next('',recordings);
+      } else {
+            return next(error);
+            }
+      });
+};
+exports.bbbgetRecordingsById = (id, next) => {
+    var recordings = [];
+    var url = urlbuilder('getRecordings','recordID='+id);
+    request({url: url, method: 'POST'}, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+        var jsons = parser.toJson(body);
+        recordings = (JSON.parse(jsons)).response.recordings.recording;
+        return next('',recordings);            
+      } else {
+            return next(error);
+            }
+      });
+};
+
 exports.bbbend = (id, next) => {
     bbbgetMeetingsById(id, (err, meetings) => {
         if(err) { return next(err);}

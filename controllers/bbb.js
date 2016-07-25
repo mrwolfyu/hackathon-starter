@@ -13,60 +13,54 @@ const utils = require('./utils');
 exports.index = (req, res) => {
     var meetings = [];
     var recordings = [];
-    var url = utils.urlbuilder('getMeetings','');
-    request({url: url, method: 'POST'}, function (error, response, bodym) {
-      if (!error && response.statusCode == 200) {
-            var meetings = (JSON.parse(parser.toJson(bodym))).response.meetings;
-            if (!meetings){
-                meetings=[];
-            };
-            var url = utils.urlbuilder('getRecordings','');
-            request({url: url, method: 'POST'}, function (error, response, body) {
-            if (!error && response.statusCode == 200) {
-                recordings = (JSON.parse(parser.toJson(body))).response.recordings.recording;
-                    if(!recordings) {
-                        recordings = [];
-                    }
-                    res.render('bbbapi/bbbapi', {
+    var pRec = new Promise((resolve, reject) =>{
+        utils.bbbgetRecordings( (err, meetings) => {
+            if(err) reject(err);
+            else resolve(meetings);
+        });
+    });
+    var pGet = new Promise((resolve,reject) => {
+        utils.bbbgetMeetings( (err, meetings) => {
+            if(err) reject(err);
+            else resolve(meetings);
+        });
+    });
+
+    Promise.all([pGet,pRec]).then( value => {
+        res.render('bbbapi/bbbapi', {
                         title: 'BBB',
-                        meetings: meetings,
+                        meetings: value[0],
                         moment: moment,
-                        recordings: recordings,
+                        recordings: value[1],
                         admin: 'admin',
                         LOCATION: config.LOCATION
                     });
-
-              } else {
-                    req.flash('errors', { msg: 'ERROR! Can\'t run getRedordings.' });
-                       }
-                });
-      } else {
-            req.flash('errors', { msg: 'ERROR! Can\'t run getMeetings.' })
-       } 
+    }, reason => {
+        req.flash('errors', { msg: 'ERROR! Can\'t run getMeetins/getRedordings. ' + reason});
     });
 };
 
 exports.getRecordings = (req, res) => {
     var recordings = [];
     var url = utils.urlbuilder('getRecordings','');
-    request({url: url, method: 'POST'}, function (error, response, body) {
-    if (!error && response.statusCode == 200) {
-        recordings = (JSON.parse(parser.toJson(body))).response.recordings.recording;
-            if(!recordings) {
-                recordings = [];
-            }
-            res.render('bbbapi/recording', {
+
+    var pRec = new Promise((resolve, reject) =>{
+        utils.bbbgetRecordings( (err, meetings) => {
+            if(err) reject(err);
+            else resolve(meetings);
+        });
+    });
+    pRec.then( value => {
+        res.render('bbbapi/recording', {
                 title: 'recording',
-                recordings: recordings,
+                recordings: value,
                 admin: 'admin',
                 moment: moment,
                 LOCATION: config.LOCATION
             });
-
-      } else {
-            req.flash('errors', { msg: 'ERROR! Can\'t run getRecordings.' }); 
-            }
-      });
+    } , reason=> {
+        req.flash('errors', { msg: 'ERROR! Can\'t find getRecordings.' + reason });
+    });
 };
 
 exports.getMeetingsById = (req, res) => {
@@ -100,52 +94,48 @@ exports.deleteMeetingsById = (req, res) => {
     });
 };
 
-
 exports.getRecordingsById = (req, res) => {
     var recordings = [];
-    var url = utils.urlbuilder('getRecordings','recordID='+req.params.id);
-    request({url: url, method: 'POST'}, function (error, response, body) {
-    if (!error && response.statusCode == 200) {
-        var jsons = parser.toJson(body);
-        recordings = (JSON.parse(jsons)).response.recordings.recording;
-            if(!recordings) {
-                recordings = [];
-            }
-            //res.redirect('/recording');
-            //return;
+    var pRec = new Promise((resolve, reject) =>{
+        utils.bbbgetRecordingsById(req.params.id, (err, meetings) => {
+            if(err) reject(err);
+            else resolve(meetings);
+        });
+    });
+    pRec.then( value => {
             res.render('bbbapi/recordingbyid', {
                 title: 'recording',
-                recordings: recordings,
+                recordings: value,
                 admin: 'admin',
                 LOCATION: config.LOCATION
             });
 
-      } else {
-            req.flash('errors', { msg: 'ERROR! Can\'t run getRecordings.' }); 
-            }
+      } , reason =>  {
+            req.flash('errors', { msg: 'ERROR! Can\'t run getRecordings.'+ reason }); 
       });
 };
 
 exports.getMeetings = (req, res) => {
     var meetings;
-    var url = utils.urlbuilder('getMeetings','');
-    request({url: url, method: 'POST'}, function (error, response, body) {
-    if (!error && response.statusCode == 200) {
-        meetings = (JSON.parse(parser.toJson(body))).response.meetings;
-            res.render('bbbapi/meeting', {
+    var pGet = new Promise((resolve,reject) => {
+        utils.bbbgetMeetings( (err, meetings) => { 
+            if(err) reject(err);
+            else resolve(meetings);
+        });
+    });
+    pGet.then( value => {
+        res.render('bbbapi/meeting', {
                 title: 'meeting',
-                meetings: meetings,
+                meetings: value,
                 admin: 'admin',
                 LOCATION: config.LOCATION
             });
-      } else {
-            req.flash('errors', { msg: 'ERROR! Can\'t run getMeetings.' }); 
-            
-            }
-      });
+    } , reason=> {
+        req.flash('errors', { msg: 'ERROR! Can\'t find getMeetings.' + reason });
+    });
 };
-exports.actRecordingsById =(req, res) =>{
 
+exports.actRecordingsById =(req, res) =>{
     if(req.params.action == 'publish') {
        var url = utils.urlbuilder('publisRecordings','publish=true&recordID='+ req.params.id);
         request({url: url, method: 'POST'}, function (error, response, body) {
@@ -186,32 +176,30 @@ exports.actRecordingsById =(req, res) =>{
     else {
          return res.redirect('/recording'); 
     }
-
 };
+
 exports.playRecordingsById = (req, res) => {
     var recordings = [];
     var recordID = req.params.id;
     var orig = req.params.orig;
     var BBB_VIDEO = 'http://' + config.BBB_IP + config.BBB_VIDEO.replace('SUBrecordID', recordID); 
-    var url = utils.urlbuilder('getRecordings','recordID='+ recordID);
-    request({url: url, method: 'POST'}, function (error, response, body) {
-    if (!error && response.statusCode == 200) {
-        var jsons = parser.toJson(body);
-        recordings = (JSON.parse(jsons)).response.recordings.recording;
-        if(!recordings) {
-            recordings = [];
-        }
+
+    var pRec = new Promise((resolve, reject) =>{
+        utils.bbbgetRecordingsById(recordID, (err, meetings) => {
+            if(err) reject(err);
+            else resolve(meetings);
+        });
+    });
+    pRec.then( value => {
         if( orig == 'video' ) {
             return res.redirect(BBB_VIDEO);
         }
         if( orig == 'custom') {
             return res.redirect('/recording');
         }  
-        return res.redirect(recordings.playback.format.url);
-      } else {
+        return res.redirect(value.playback.format.url);
+      } , reason =>  {
             req.flash('errors', { msg: 'ERROR! Can\'t run getRecordings.' });
-            }
-      });
+    });
 };
-
 
