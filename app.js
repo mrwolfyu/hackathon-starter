@@ -29,7 +29,6 @@ dotenv.load({ path: '.env' });
  * Controllers (route handlers).
  */
 const homeController = require('./controllers/home');
-const adminController = require('./controllers/api/admin');
 const userController = require('./controllers/user');
 const roomController = require('./controllers/room');
 const bbbController = require('./controllers/bbb');
@@ -56,7 +55,9 @@ mongoose.connection.on('error', () => {
 /**
  * Express configuration.
  */
+
 app.set('port', process.env.PORT || 3000);
+app.set('host', process.env.HOST || 'localhost');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 app.use(compression());
@@ -111,7 +112,6 @@ app.use('/bower_components',  express.static(__dirname + '/bower_components'));
  */
 app.get('/', passportConfig.isAuthenticated, homeController.index);
 app.get('/admin',  passportConfig.isAdmin, homeController.adminindex);
-app.get('/api/admin/:id',  passportConfig.isAdmin, adminController.index);
 app.get('/admin/create',  passportConfig.isAdmin, homeController.create);
 app.get('/admin/join',  passportConfig.isAdmin, homeController.join);
 app.get('/login', userController.getLogin);
@@ -130,6 +130,7 @@ app.get('/signup',  passportConfig.isAdmin, userController.getSignup);
 app.post('/roomc',  passportConfig.isAdmin, roomController.postRoom);
 app.post('/signup',  passportConfig.isAdmin, userController.postSignup);
 app.get('/account/:id', passportConfig.isAdmin, userController.getAccountById);
+app.get('/help/profile', passportConfig.isAdmin, userController.getHelpProfile);
 app.get('/roomc/:id', passportConfig.isAdmin, roomController.getRoomById);
 app.post('/account/profile/:id', passportConfig.isAdmin, userController.postUpdateProfileById);
 app.post('/roomc/:id', passportConfig.isAdmin, roomController.postRoomById);
@@ -146,7 +147,7 @@ app.use(errorHandler());
 /**
  * Start Express server.
  */
-app.listen(app.get('port'), () => {
+app.listen(app.get('port'), app.get('host'), () => {
   console.log('Express server listening on port %d in %s mode', app.get('port'), app.get('env'));
 });
 

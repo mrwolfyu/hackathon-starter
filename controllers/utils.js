@@ -2,6 +2,7 @@ const config = require('../.config.json');
 const crypto = require('crypto');
 const request = require('request');
 const parser = require('xml2json');
+const xform = require('x-www-form-urlencode');
 
 urlbuilder = exports.urlbuilder = (action, params) => {
     var shasum = crypto.createHash('sha1');
@@ -27,7 +28,7 @@ bbbcreate = exports.bbbcreate = (req, res, room , next) => {
                       +"&allowStartStopRecording=false&autoStartRecording=true&record=true";
             
                 url = urlbuilder('create',params);
-                request(url, function (error, response, body) {
+                request({url: url, method: 'POST'}, function (error, response, body) {
                     if ((error && response.statusCode == 200 ) || JSON.parse(parser.toJson(body)).response.returncode != 'FAILED') {
                         return next('');
                             }
@@ -46,16 +47,42 @@ exports.bbbjoin = (req, room, next) => {
             if( req.user.profile.tip  === 'moderator' || req.user.profile.tip  === 'admin' ) {
                 roompw=room.moderatorPW;
             }
-            url = urlbuilder('join','meetingID='+room.meetingID+'&password='+ roompw + '&fullName=' +req.user.profile.name +'&redirect=true');
-            return next('', url);
+            if( req.user.profile.xml != '' ) {
+                var url = urlbuilder('setConfigXML', 'configXML='+ xform.encode(req.user.profile.xml)+'&meetingID=' + room.meetingID);
+
+                request({url: url, method:'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'} } , (error, response, body) => {
+                    if(error) return next(error);
+                    var token = JSON.parse(parser.toJson(body)).response.configToken;
+                    url = urlbuilder('join','meetingID='+room.meetingID+'&password='+ room.moderatorPW 
+                                        + '&configToken=' + token +'&fullName='+req.user.profile.name+'&redirect=true');
+                    return next('', url);
+                });
+
+            } else {
+                url = urlbuilder('join','meetingID='+room.meetingID+'&password='+ roompw + '&fullName=' + req.user.profile.name +'&redirect=true');
+                return next('', url);
+            }
         }
     });
+};
+
+bbbgetDefaultConfigXML = exports.bbbgetDefaultConfigXML= ( next) => {
+    var meetings = [];
+    var url = urlbuilder('getDefaultConfigXML','');
+    request({url: url, method: 'POST'}, function (error, response, body) {
+        if (!error && response.statusCode == 200 ) {
+            return next('',body);
+
+        } else {
+            return next(error);    
+        }
+      });
 };
 
 bbbgetMeetingsById = exports.bbbgetMeetingsById = ( id, next) => {
     var meetings = [];
     var url = urlbuilder('getMeetingInfo','meetingID='+id);
-    request(url, function (error, response, body) {
+    request({url: url, method: 'POST'}, function (error, response, body) {
         if (!error && response.statusCode == 200 ) {
             var jsons = parser.toJson(body);
             meetings = (JSON.parse(jsons)).response;
@@ -73,7 +100,7 @@ exports.bbbend = (id, next) => {
         if(err) { return next(err);}
         else {
             var url = urlbuilder('end','meetingID='+ meetings.meetingID + "&password="+meetings.moderatorPW);
-            request(url, function (error, response, body) {
+            request({url: url, method: 'POST'}, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
                     if ((JSON.parse(parser.toJson(body))).response.returncode == 'FAILED') {return next("ERROR");}
                     else return next('') ;

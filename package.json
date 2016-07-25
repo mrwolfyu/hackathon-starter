@@ -52,6 +52,7 @@
     "twilio": "^3.3.0-edge",
     "twit": "^2.2.4",
     "validator": "^5.4.0",
+    "x-www-form-urlencode": "^0.1.1",
     "xml2json": "^0.9.1",
     "yui": "^3.18.1"
   },

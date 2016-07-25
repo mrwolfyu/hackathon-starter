@@ -4,12 +4,14 @@ const nodemailer = require('nodemailer');
 const passport = require('passport');
 const User = require('../models/User');
 const Room = require('../models/Room');
+const config = require('../.config.json');
 /**
  * GET /login
  * Login page.
  */
 exports.getLogin = (req, res) => {
   if (req.user) {
+    req.logout();
     return res.redirect('/');
   }
   else {
@@ -18,6 +20,51 @@ exports.getLogin = (req, res) => {
   	});
  }
 };
+
+exports.getHelpProfile = (req, res) => {
+
+var xml = '';
+
+
+xml ='<config>\
+<localeversion suppressWarning="false">0.9.0</localeversion>\
+<version>419</version>\
+<help url="http://10.9.1.99/help.html"/>\
+<javaTest url="http://10.9.1.99/testjava.html"/>\
+<porttest host="10.9.1.99" application="video/portTest" timeout="10000"/>\
+<bwMon server="10.9.1.99" application="video/bwTest"/>\
+<application uri="rtmp://10.9.1.99/bigbluebutton" host="http://10.9.1.99/bigbluebutton/api/enter"/>\
+<language userSelectionEnabled="true"/>\
+<skinning enabled="true" url="http://10.9.1.99/client/branding/css/BBBDefault.css.swf"/>\
+<shortcutKeys showButton="true"/>\
+<browserVersions chrome="47" firefox="43" flash="19" java="1.7.0_51"/>\
+<layout showLogButton="false" defaultLayout="S2SPresentation" showToolbar="true" showFooter="true" showMeetingName="true" showHelpButton="true" showLogoutWindow="true" showLayoutTools="true" confirmLogout="true" showRecordingNotification="true"/>\
+<meeting muteOnStart="false"/>\
+<logging enabled="true" target="trace" level="info" format="{dateUTC} {time} :: {name} :: [{logLevel}] {message}" uri="http://10.9.1.99"/>\
+<lock disableCamForLockedUsers="false" disableMicForLockedUsers="false" disablePrivateChatForLockedUsers="false" disablePublicChatForLockedUsers="false" lockLayoutForLockedUsers="false" lockOnJoin="true" lockOnJoinConfigurable="false"/>\
+<modules>\
+<module name="ChatModule" url="http://10.9.1.99/client/ChatModule.swf?v=419" uri="rtmp://10.9.1.99/bigbluebutton" dependsOn="UsersModule" privateEnabled="true" fontSize="12" position="top-right" baseTabIndex="701" colorPickerIsVisible="false" maxMessageLength="1024"/>\
+<module name="UsersModule" url="http://10.9.1.99/client/UsersModule.swf?v=419" uri="rtmp://10.9.1.99/bigbluebutton" allowKickUser="true" enableEmojiStatus="true" enableSettingsButton="true" baseTabIndex="301"/>\
+<module name="DeskShareModule" url="http://10.9.1.99/client/DeskShareModule.swf?v=419" uri="rtmp://10.9.1.99/deskShare" publishURI="10.9.1.99" useTLS="false" showButton="true" autoStart="false" autoFullScreen="false" baseTabIndex="201"/>\
+<module name="PhoneModule" url="http://10.9.1.99/client/PhoneModule.swf?v=419" uri="rtmp://10.9.1.99/sip" autoJoin="true" listenOnlyMode="true" presenterShareOnly="false" skipCheck="false" showButton="true" enabledEchoCancel="true" useWebRTCIfAvailable="true" showPhoneOption="false" echoTestApp="9196" dependsOn="UsersModule"/>\
+<module name="VideoconfModule" url="http://10.9.1.99/client/VideoconfModule.swf?v=419" uri="rtmp://10.9.1.99/video" dependson="UsersModule" baseTabIndex="401" presenterShareOnly="false" controlsForPresenter="false" autoStart="false" skipCamSettingsCheck="false" showButton="true" showCloseButton="true" publishWindowVisible="true" viewerWindowMaxed="false" viewerWindowLocation="top" smoothVideo="false" applyConvolutionFilter="false" convolutionFilter="-1, 0, -1, 0, 6, 0, -1, 0, -1" filterBias="0" filterDivisor="4" displayAvatar="false" focusTalking="false" glowColor="0x4A931D" glowBlurSize="30.0" priorityRatio="0.67"/>\
+<module name="WhiteboardModule" url="http://10.9.1.99/client/WhiteboardModule.swf?v=419" uri="rtmp://10.9.1.99/bigbluebutton" dependsOn="PresentModule" baseTabIndex="601" whiteboardAccess="presenter" keepToolbarVisible="false"/>\
+<module name="PollingModule" url="http://10.9.1.99/client/PollingModule.swf?v=419" uri="rtmp://10.9.1.99/bigbluebutton" dependsOn="PresentModule"/>\
+<module name="PresentModule" url="http://10.9.1.99/client/PresentModule.swf?v=419" uri="rtmp://10.9.1.99/bigbluebutton" host="http://10.9.1.99" showPresentWindow="true" showWindowControls="true" openExternalFileUploadDialog="false" dependsOn="UsersModule" baseTabIndex="501" maxFileSize="30"/>\
+<module name="LayoutModule" url="http://10.9.1.99/client/LayoutModule.swf?v=419" uri="rtmp://10.9.1.99/bigbluebutton" layoutConfig="http://10.9.1.99/client/conf/layout.xml" enableEdit="false"/>\
+</modules>\
+</config>';
+
+
+console.log('asdasd');
+     return res.render('help', {
+                title: 'Help',
+                admin: 'admin',
+                xml: xml,
+                LOCATION: config.LOCATION
+        });
+};
+
 
 /**
  * POST /login
@@ -330,7 +377,6 @@ exports.getReset = (req, res, next) => {
 
 /**
  * POST /reset/:token
- * Process the reset password request.
  */
 exports.postReset = (req, res, next) => {
   req.assert('password', 'Password must be at least 4 characters long.').len(4);
