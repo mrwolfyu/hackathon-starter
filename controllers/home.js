@@ -91,7 +91,7 @@ exports.create = (req, res) => {
 
 
 exports.index = (req, res) => {
-/* if(typeof(req.headers.referer) != 'undefined') { 
+ if(typeof(req.headers.referer) != 'undefined') { 
         if(req.headers.referer.toString().match(/client\/BigBlueButton.html/)) {
             req.logout();
             return res.redirect('/login');

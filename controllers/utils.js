@@ -22,9 +22,9 @@ bbbcreate = exports.bbbcreate = (req, res, room , next) => {
                       +'&moderatorPW='+ xform.encode(room.moderatorPW)
                       +'&attendeePW='+ xform.encode(room.attendeePW)
                       +'&welcome=' + xform.encode(room.welcome)
-                      +'&meta_currentDate=' + xform.encode(Date().toString()),
-                      +'&meta_org=SMATSA',
-                      + xform.encode('&meta_author=Marko Dzida'),
+                      +'&meta_currentDate=' + xform.encode(Date().toString())
+                      +'&meta_org=SMATSA'
+                      + xform.encode('&meta_author=Marko Dzida')
                       +"&allowStartStopRecording=false&autoStartRecording=true&record=true";
             
                 url = urlbuilder('create',params);

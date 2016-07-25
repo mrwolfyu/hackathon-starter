@@ -9,6 +9,7 @@ const request = require('request');
 const parser = require('xml2json');
 const moment = require('moment');
 const utils = require('./utils');
+const sortBy = require('lodash.sortby');
 
 exports.index = (req, res) => {
     var meetings = [];
@@ -53,7 +54,7 @@ exports.getRecordings = (req, res) => {
     pRec.then( value => {
         res.render('bbbapi/recording', {
                 title: 'recording',
-                recordings: value,
+                recordings: sortBy(value, 'startTime').reverse(),
                 admin: 'admin',
                 moment: moment,
                 LOCATION: config.LOCATION
