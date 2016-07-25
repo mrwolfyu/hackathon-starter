@@ -205,7 +205,7 @@ exports.playRecordingsById = (req, res) => {
             return res.redirect(BBB_VIDEO);
         }
         if( orig == 'custom') {
-            return res.redirect('/bbb');
+            return res.redirect('/recording');
         }  
         return res.redirect(recordings.playback.format.url);
       } else {

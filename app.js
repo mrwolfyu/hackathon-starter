@@ -129,7 +129,6 @@ app.get('/meeting',  passportConfig.isAdmin, bbbController.getMeetings);
 app.get('/signup',  passportConfig.isAdmin, userController.getSignup);
 app.post('/roomc',  passportConfig.isAdmin, roomController.postRoom);
 app.post('/signup',  passportConfig.isAdmin, userController.postSignup);
-//app.get('/account', passportConfig.isAdmin, userController.getAccount);
 app.get('/account/:id', passportConfig.isAdmin, userController.getAccountById);
 app.get('/roomc/:id', passportConfig.isAdmin, roomController.getRoomById);
 app.post('/account/profile/:id', passportConfig.isAdmin, userController.postUpdateProfileById);
