@@ -32,7 +32,7 @@
           li.dropdown(class=(title == 'Account Management') ? 'active' : undefined)
             if admin=='admin'
               li(class=(title ==  (user.profile.name || user.email || user.id) ) ? 'active' : undefined)
-                 a(href='/') #{user.profile.name || user.email || user.id}
+                 a #{user.profile.name || user.email || user.id}
               li(class=(title == 'My Account Management' ) ? 'active' : undefined)
                  a(href='/account/#{user.id}') My Account
               li(class=(title == 'Logout') ? 'active' : undefined)

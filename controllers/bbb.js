@@ -3,14 +3,12 @@
  * BBB page.
  */
 
-
 const config = require('../.config.json');
 const crypto = require('crypto');
 const request = require('request');
 const parser = require('xml2json');
 const moment = require('moment');
 const utils = require('./utils');
-
 
 exports.index = (req, res) => {
     var meetings = [];
@@ -19,12 +17,9 @@ exports.index = (req, res) => {
     request(url, function (error, response, bodym) {
       if (!error && response.statusCode == 200) {
             var meetings = (JSON.parse(parser.toJson(bodym))).response.meetings;
-
             if (!meetings){
                 meetings=[];
             };
-        
-            
             var url = utils.urlbuilder('getRecordings','');
             request(url, function (error, response, body) {
             if (!error && response.statusCode == 200) {
@@ -45,7 +40,6 @@ exports.index = (req, res) => {
                     req.flash('errors', { msg: 'ERROR! Can\'t run getRedordings.' });
                        }
                 });
-
       } else {
             req.flash('errors', { msg: 'ERROR! Can\'t run getMeetings.' })
        } 
@@ -79,7 +73,7 @@ exports.getMeetingsById = (req, res) => {
 
     utils.bbbgetMeetingsById(req.params.id, (err, meetings) => {
         if(err) {
-            req.flash('errors', { msg: 'ERROR! Can\'t run getMeetings.' });
+            req.flash('errors', { msg: 'ERROR! Can\'t find getMeetings.' });
         } else {
             res.render('bbbapi/meetingbyid', {
                 title: 'meeting',
@@ -150,7 +144,50 @@ exports.getMeetings = (req, res) => {
             }
       });
 };
+exports.actRecordingsById =(req, res) =>{
 
+    if(req.params.action == 'publish') {
+       var url = utils.urlbuilder('publisRecordings','publish=true&recordID='+ req.params.id);
+        request(url, function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+                req.flash('success', { msg: 'REC PUBLISHED.' });
+                return res.redirect('/recording');
+            }
+            else {
+                req.flash('errors', { msg: 'ERROR! Can\'t publish Recording.' });
+                return res.redirect('/recording');
+            }
+        }); 
+    } else if(req.params.action == 'unpublish') {
+       var url = utils.urlbuilder('publisRecordings','publish=false&recordID='+ req.params.id);
+        request(url, function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+                req.flash('success', { msg: 'REC PUBLISHED.' });
+                return res.redirect('/recording');
+            }
+            else {
+                req.flash('errors', { msg: 'ERROR! Can\'t publish Recording.' });
+                return res.redirect('/recording');
+            }
+        });
+    } else if (req.params.action == 'delete') {
+        var url = utils.urlbuilder('deleteRecordings','recordID='+ req.params.id);
+        request(url, function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+                req.flash('success', { msg: 'REC DELETED.' });
+                return res.redirect('/recording');
+            }
+            else {
+                req.flash('errors', { msg: 'ERROR! Can\'t delete Recording.' });
+                return res.redirect('/recording');
+            }
+        });
+    }
+    else {
+         return res.redirect('/recording'); 
+    }
+
+};
 exports.playRecordingsById = (req, res) => {
     var recordings = [];
     var recordID = req.params.id;

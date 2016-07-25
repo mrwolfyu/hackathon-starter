@@ -18,8 +18,9 @@ block content
              tr
                td #{user.username} / #{user.profile.name}
                td #{user.profile.tip}
-               td
-                 a.i.fa.fa-pencil(href='/account/#{user._id}')
+               td(style='width:1%; white-space:nowrap;')
+                 a.btn.btn-primary(href='/account/#{user._id}' style='padding: 2px; border-radius:4px;')
+                   i.fa.fa-pencil EDIT
       .form-group
           a.button.btn.btn-primary(href='/signup')
             i.fa.fa-plus
@@ -38,20 +39,15 @@ block content
              tr
                td #{room.meetingID}
                td #{room.name}
-               td
-                 a.i.fa.fa-pencil(href='/roomc/#{room._id}') Edit
-                 a.i.fa.fa-plus(href='/admin/create') Create
-                 a.i.fa.fa-check(href='/admin/join') Join
+               td(style='width:1%; white-space:nowrap;')
+                 a.btn.btn-primary(href='/roomc/#{room._id}' style='padding: 2px; margin-right:5px; border-radius:4px;')
+                   i.fa.fa-pencil EDIT
+                 a.btn.btn-success(href='/admin/create' style='padding: 2px; margin-right:5px; border-radius:4px;')
+                   i.fa.fa-plus CREATE
+                 a.btn.btn-warning(href='/admin/create' style='padding: 2px; border-radius:4px;')
+                   i.fa.fa-check JOIN
       .form-group
           a.button.btn.btn-primary(href='/roomc')
             i.fa.fa-plus
             | Add Meetting
-   .row 
-    .col-sm-6
-      h2 Users
-      table(data-toggle="table" data-url='/api/admin/getusers')
-        thead
-          tr
-            th(data-field='username') Username
-            th(data-field='profile.name') Fullname
-            th(data-field='profile.tip') Type
+

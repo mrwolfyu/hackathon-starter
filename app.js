@@ -32,7 +32,6 @@ const homeController = require('./controllers/home');
 const adminController = require('./controllers/api/admin');
 const userController = require('./controllers/user');
 const roomController = require('./controllers/room');
-const contactController = require('./controllers/contact');
 const bbbController = require('./controllers/bbb');
 
 /**
@@ -122,6 +121,7 @@ app.get('/roomc',  passportConfig.isAdmin, roomController.getRoom);
 app.get('/bbb',  passportConfig.isAdmin, bbbController.index);
 app.get('/recording',  passportConfig.isAdmin, bbbController.getRecordings);
 app.get('/recording/:id',  passportConfig.isAdmin, bbbController.getRecordingsById);
+app.get('/recording/:id/:action',  passportConfig.isAdmin, bbbController.actRecordingsById);
 app.get('/play/:id/:orig',  passportConfig.isAdmin, bbbController.playRecordingsById);
 app.get('/meeting/:id',  passportConfig.isAdmin, bbbController.getMeetingsById);
 app.get('/meetingdelete/:id',  passportConfig.isAdmin, bbbController.deleteMeetingsById);

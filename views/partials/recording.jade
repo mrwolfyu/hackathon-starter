@@ -1,5 +1,5 @@
 -  function tosrt(s) { return moment( parseInt(s.toString().trim()) ).format('DD/MM/YYYY HH:mm:ss').toString(); };
-table.table.table-hover.table-bordered
+table.table.table-hover.table-bordered(table-layout='auto' style='widht:100%')
    thead
      tr
        th MeetingID
@@ -11,8 +11,25 @@ table.table.table-hover.table-bordered
        td #{recording.meetingID}
        td #{tosrt(recording.startTime)}
        td #{tosrt(recording.endTime)}
-       td
-         a.i.fa.fa-info(href='/recording/#{recording.recordID}')
-         a.i.fa.fa-play(href='/play/#{recording.recordID}/default')
-         a.i.fa.fa-play(href='/play/#{recording.recordID}/video')
-         a.i.fa.fa-play(href='/play/#{recording.recordID}/custom')
+       td(style='width:1%; white-space:nowrap;')
+         a.btn.btn-info(href='/recording/#{recording.recordID}' style='padding: 4px; padding-left: 10px; margin-right:5px; border-radius:4px;')
+           i.fa.fa-info(title='DETAILS')
+           span.sr-only DETAIL INFO
+         a.btn.btn-primary(href='/play/#{recording.recordID}/default' style='padding: 4px;margin-right:5px; padding-right:2px;padding-left:8px; border-radius:4px;')
+           i.fa.fa-play(title='PRESENTATION')
+           span.sr-only PLAY PRESENTATION
+         a.btn.btn-primary(href='/play/#{recording.recordID}/video' style='padding: 4px;margin-right:5px; padding-right:2px;padding-left:8px;border-radius:4px;')
+           i.fa.fa-play(title='VIDEO')
+           span.sr-only PLAY VIDEO
+         a.btn.btn-primary(href='/play/#{recording.recordID}/custom' style='padding: 4px;margin-right:5px;padding-right:2px;padding-left:8px; border-radius:4px;')
+           i.fa.fa-play(title='CUSTOM')
+           span.sr-only PLAY CUSTOM
+         a.btn.btn-success(href='/recording/#{recording.recordID}/publish' style='padding:4px;padding-right:2px;padding-left:8px;margin-right:5px; border-radius:4px;')
+           i.fa.fa-cab(title='PUBLISH')
+           span.sr-only PUBLISH
+         a.btn.btn-warning(href='/recording/#{recording.recordID}/unpublish' style='padding:4px;padding-right:2px;padding-left:8px;margin-right:5px;border-radius:4px;')
+           i.fa.fa-cab(title='UNPUBLISH')
+           span.sr-only UNPUBLISH
+         a.btn.btn-danger(href='/recording/#{recording.recordID}/delete' style='padding: 4px; padding-right: 2px; padding-left: 8px;  border-radius:4px;')
+           i.fa.fa-trash(title='DELETE')
+           span.sr-only DELETE

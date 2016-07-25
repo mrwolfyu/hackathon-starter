@@ -1,4 +1,4 @@
-table.table.table-hover.table-bordered
+table.table.table-hover.table-bordered(table-layout='auto' style='widht:100%')
    thead
      tr
        th Name
@@ -6,7 +6,10 @@ table.table.table-hover.table-bordered
    each meeting, i in meetings
      tr
        td #{meeting.meetingName}
-       td
-         a.i.fa.fa-info(href='/meeting/#{meeting.meetingID}')
-         a.i.fa.fa-trash(href='/meetingdelete/#{meeting.meetingID}')
-
+       td(style='width:1%; white-space:nowrap;')
+         a.btn.btn-info(href='/meeting/#{meeting.meetingID}' style='padding: 4px;margin-right:5px; border-radius:4px;')
+           i.fa.fa-info INFO
+           span.sr-only DETAIL INFO
+         a.btn.btn-danger(href='/meetingdelete/#{meeting.meetingID}' style='padding: 4px;border-radius:4px;')
+           i.fa.fa-trash DELETE
+           span.sr-only DELETE
