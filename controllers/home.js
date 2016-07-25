@@ -6,13 +6,14 @@
 
 const config = require('../.config.json');
 const crypto = require('crypto');
-const request = require('request');
 const parser = require('xml2json');
 const Room = require('../models/Room');
 const User = require('../models/User');
 const utils = require('./utils');
+const request = require('request');
 
-//    return ret + action + '?' + encodeURIComponent(params) + 'checksum='+shasum.digest('hex');
+
+
 confjoin = (req, res, room) => {
     utils.bbbjoin(req, room, (err, url) => {
         if(err) {
@@ -26,6 +27,7 @@ confjoin = (req, res, room) => {
         }
     });
 }; 
+
 
 createandjoin = (req,res,room) => {
     utils.bbbgetMeetingsById(room.meetingID, (err, meetings) => {
