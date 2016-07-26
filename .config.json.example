@@ -1,11 +1,10 @@
 {
 	"LOCATION": "LOCATION_R",
-	"MEETING_NAME": "MEETING_NAME_R",
-    "BBB_IP"; "BBB_IP_R",
-	"BBB_URL": "BBB_URL_R",
-	"BBB_SECRET": "BBB_SECRET_R",
-    "BBB_PLAYBACK": "BBB_PLAYBACK_R",
-    "BBB_VIDEO": "BBB_VIDEO_R",
-    "BBB_AUDIO": "BBB_AUDIO_R"
-    "BBB_AUDIO_OGG": "BBB_AUDIO_OGG_R"
+	"MEETING_NAME": "NAME_R",
+    "BBB_IP": "IP_R",
+	"BBB_URL": "/bigbluebutton",
+	"BBB_SECRET": "SECRET_R",
+    "BBB_VIDEO": "/presentation/SUBrecordID/video/webcams.webm",
+    "BBB_AUDIO": "/presentation/SUBrecordID/audio/audio.webm",
+    "BBB_AUDIO_OGG": "/presentation/SUBrecordID/audio/audio.ogg"
 }
