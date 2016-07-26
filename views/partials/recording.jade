@@ -1,4 +1,4 @@
--  function tosrt(s) { return moment( parseInt(s.toString().trim()) ).format('DD/MM/YYYY HH:mm:ss').toString(); };
+-  function tosrt(s) { if(typeof(s) !='undefined') return moment( parseInt(s.toString().trim()) ).format('DD/MM/YYYY HH:mm:ss').toString(); else return s;};
 table.table.table-hover.table-bordered(table-layout='auto' style='widht:100%')
    thead
      tr

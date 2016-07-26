@@ -116,7 +116,7 @@ exports.bbbgetRecordings = (next) => {
     var url = urlbuilder('getRecordings','');
     request({url: url, method: 'POST'}, function (error, response, body) {
     if (!error && response.statusCode == 200) {
-        recordings = (JSON.parse(parser.toJson(body))).response.recordings.recording;
+        recordings = (JSON.parse(parser.toJson(body))).response.recordings;
 	if (typeof(recordings) =='undefined') recordings = [];
         return next('',recordings);
       } else {
