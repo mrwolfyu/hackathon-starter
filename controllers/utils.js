@@ -55,14 +55,14 @@ exports.bbbjoin = (req, room, next) => {
                 request({url: url, method:'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'} } , (error, response, body) => {
                     if(error) return next(error);
                     var token = JSON.parse(parser.toJson(body)).response.configToken;
-                    url = urlbuilder('join','meetingID='+xform.encode(room.meetingID)+'&password='+ xform.encode(roompw)
+                    url = urlbuilder('join','meetingID='+xform.encode(room.meetingID)+'&password='+ roompw
                                         + '&configToken=' + token +'&fullName='+xform.encode(req.user.profile.name)+'&redirect=true');
                     return next('', url);
                 });
 
             } else {
                 url = urlbuilder('join','meetingID='+xform.encode(room.meetingID)
-                                    +'&password='+  xform.encode(roompw) + '&fullName=' + xform.encode(req.user.profile.name) +'&redirect=true');
+                                    +'&password='+  roompw + '&fullName=' + xform.encode(req.user.profile.name) +'&redirect=true');
                 return next('', url);
             }
         }
@@ -104,7 +104,6 @@ bbbgetMeetings = exports.bbbgetMeetings = (next) => {
     request({url: url, method: 'POST'}, function (error, response, body) {
     if (!error && response.statusCode == 200) {
         meetings = (JSON.parse(parser.toJson(body))).response.meetings;
-        console.log(meetings);
         return next('', meetings);    
       } else {
             return next(error);
@@ -118,6 +117,7 @@ exports.bbbgetRecordings = (next) => {
     request({url: url, method: 'POST'}, function (error, response, body) {
     if (!error && response.statusCode == 200) {
         recordings = (JSON.parse(parser.toJson(body))).response.recordings.recording;
+	if (typeof(recordings) =='undefined') recordings = [];
         return next('',recordings);
       } else {
             return next(error);

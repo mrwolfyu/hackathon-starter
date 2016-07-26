@@ -67,7 +67,6 @@ exports.adminindex = (req, res) => {
         });
     }, reason => {
         req.flash('errors', { msg: 'ERROR! Can\'t get db.' });
-        console.error(reason)
     });
 };
 

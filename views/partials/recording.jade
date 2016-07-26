@@ -6,7 +6,7 @@ table.table.table-hover.table-bordered(table-layout='auto' style='widht:100%')
        th StartTime
        th EndTime
        th Action
-   each recording, i in recordings.sort()
+   each recording, i in recordings
      tr
        td #{recording.meetingID}
        td #{tosrt(recording.startTime)}
