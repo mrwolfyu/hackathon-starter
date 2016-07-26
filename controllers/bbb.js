@@ -52,7 +52,6 @@ exports.getRecordings = (req, res) => {
         });
     });
     pRec.then( value => {
-	console.log(value);
         res.render('bbbapi/recording', {
                 title: 'recording',
                 recordings: sortBy(value, 'startTime').reverse(),
@@ -61,7 +60,6 @@ exports.getRecordings = (req, res) => {
                 LOCATION: config.LOCATION
             });
     } , reason=> {
-	console.log(reason);
         req.flash('errors', { msg: 'ERROR! Can\'t find getRecordings.' + reason });
     });
 };
