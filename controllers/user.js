@@ -9,6 +9,8 @@ const config = require('../.config.json');
  * GET /login
  * Login page.
  */
+
+
 exports.getLogin = (req, res) => {
   if (req.user) {
     req.logout();
@@ -25,38 +27,36 @@ exports.getHelpProfile = (req, res) => {
 
 var xml = '';
 
-
 xml ='<config>\
 <localeversion suppressWarning="false">0.9.0</localeversion>\
 <version>419</version>\
-<help url="http://172.23.104.66/help.html"/>\
-<javaTest url="http://172.23.104.66/testjava.html"/>\
-<porttest host="172.23.104.66" application="video/portTest" timeout="10000"/>\
-<bwMon server="172.23.104.66" application="video/bwTest"/>\
-<application uri="rtmp://172.23.104.66/bigbluebutton" host="http://172.23.104.66/bigbluebutton/api/enter"/>\
+<help url="http://'+config.BBB_IP+'/help.html"/>\
+<javaTest url="http://'+config.BBB_IP+'/testjava.html"/>\
+<porttest host="'+config.BBB_IP+'" application="video/portTest" timeout="10000"/>\
+<bwMon server="'+config.BBB_IP+'" application="video/bwTest"/>\
+<application uri="rtmp://'+config.BBB_IP+'/bigbluebutton" host="http://'+config.BBB_IP+'/bigbluebutton/api/enter"/>\
 <language userSelectionEnabled="true"/>\
-<skinning enabled="true" url="http://172.23.104.66/client/branding/css/BBBDefault.css.swf"/>\
+<skinning enabled="true" url="http://'+config.BBB_IP+'/client/branding/css/BBBDefault.css.swf"/>\
 <shortcutKeys showButton="true"/>\
 <browserVersions chrome="47" firefox="43" flash="19" java="1.7.0_51"/>\
 <layout showLogButton="false" defaultLayout="S2SPresentation" showToolbar="true" showFooter="true" showMeetingName="true" showHelpButton="true" showLogoutWindow="true" showLayoutTools="true" confirmLogout="true" showRecordingNotification="true"/>\
 <meeting muteOnStart="false"/>\
-<logging enabled="true" target="trace" level="info" format="{dateUTC} {time} :: {name} :: [{logLevel}] {message}" uri="http://172.23.104.66"/>\
+<logging enabled="true" target="trace" level="info" format="{dateUTC} {time} :: {name} :: [{logLevel}] {message}" uri="http://'+config.BBB_IP+'"/>\
 <lock disableCamForLockedUsers="false" disableMicForLockedUsers="false" disablePrivateChatForLockedUsers="false" disablePublicChatForLockedUsers="false" lockLayoutForLockedUsers="false" lockOnJoin="true" lockOnJoinConfigurable="false"/>\
 <modules>\
-<module name="ChatModule" url="http://172.23.104.66/client/ChatModule.swf?v=419" uri="rtmp://172.23.104.66/bigbluebutton" dependsOn="UsersModule" privateEnabled="true" fontSize="12" position="top-right" baseTabIndex="701" colorPickerIsVisible="false" maxMessageLength="1024"/>\
-<module name="UsersModule" url="http://172.23.104.66/client/UsersModule.swf?v=419" uri="rtmp://172.23.104.66/bigbluebutton" allowKickUser="true" enableEmojiStatus="true" enableSettingsButton="true" baseTabIndex="301"/>\
-<module name="DeskShareModule" url="http://172.23.104.66/client/DeskShareModule.swf?v=419" uri="rtmp://172.23.104.66/deskShare" publishURI="172.23.104.66" useTLS="false" showButton="true" autoStart="false" autoFullScreen="false" baseTabIndex="201"/>\
-<module name="PhoneModule" url="http://172.23.104.66/client/PhoneModule.swf?v=419" uri="rtmp://172.23.104.66/sip" autoJoin="true" listenOnlyMode="true" presenterShareOnly="false" skipCheck="false" showButton="true" enabledEchoCancel="true" useWebRTCIfAvailable="true" showPhoneOption="false" echoTestApp="9196" dependsOn="UsersModule"/>\
-<module name="VideoconfModule" url="http://172.23.104.66/client/VideoconfModule.swf?v=419" uri="rtmp://172.23.104.66/video" dependson="UsersModule" baseTabIndex="401" presenterShareOnly="false" controlsForPresenter="false" autoStart="false" skipCamSettingsCheck="false" showButton="true" showCloseButton="true" publishWindowVisible="true" viewerWindowMaxed="false" viewerWindowLocation="top" smoothVideo="false" applyConvolutionFilter="false" convolutionFilter="-1, 0, -1, 0, 6, 0, -1, 0, -1" filterBias="0" filterDivisor="4" displayAvatar="false" focusTalking="false" glowColor="0x4A931D" glowBlurSize="30.0" priorityRatio="0.67"/>\
-<module name="WhiteboardModule" url="http://172.23.104.66/client/WhiteboardModule.swf?v=419" uri="rtmp://172.23.104.66/bigbluebutton" dependsOn="PresentModule" baseTabIndex="601" whiteboardAccess="presenter" keepToolbarVisible="false"/>\
-<module name="PollingModule" url="http://172.23.104.66/client/PollingModule.swf?v=419" uri="rtmp://172.23.104.66/bigbluebutton" dependsOn="PresentModule"/>\
-<module name="PresentModule" url="http://172.23.104.66/client/PresentModule.swf?v=419" uri="rtmp://172.23.104.66/bigbluebutton" host="http://172.23.104.66" showPresentWindow="true" showWindowControls="true" openExternalFileUploadDialog="false" dependsOn="UsersModule" baseTabIndex="501" maxFileSize="30"/>\
-<module name="LayoutModule" url="http://172.23.104.66/client/LayoutModule.swf?v=419" uri="rtmp://172.23.104.66/bigbluebutton" layoutConfig="http://172.23.104.66/client/conf/layout.xml" enableEdit="false"/>\
+<module name="ChatModule" url="http://'+config.BBB_IP+'/client/ChatModule.swf?v=419" uri="rtmp://'+config.BBB_IP+'/bigbluebutton" dependsOn="UsersModule" privateEnabled="true" fontSize="12" position="top-right" baseTabIndex="701" colorPickerIsVisible="false" maxMessageLength="1024"/>\
+<module name="UsersModule" url="http://'+config.BBB_IP+'/client/UsersModule.swf?v=419" uri="rtmp://'+config.BBB_IP+'/bigbluebutton" allowKickUser="true" enableEmojiStatus="true" enableSettingsButton="true" baseTabIndex="301"/>\
+<module name="DeskShareModule" url="http://'+config.BBB_IP+'/client/DeskShareModule.swf?v=419" uri="rtmp://'+config.BBB_IP+'/deskShare" publishURI="'+config.BBB_IP+'" useTLS="false" showButton="true" autoStart="false" autoFullScreen="false" baseTabIndex="201"/>\
+<module name="PhoneModule" url="http://'+config.BBB_IP+'/client/PhoneModule.swf?v=419" uri="rtmp://'+config.BBB_IP+'/sip" autoJoin="true" listenOnlyMode="true" presenterShareOnly="false" skipCheck="false" showButton="true" enabledEchoCancel="true" useWebRTCIfAvailable="true" showPhoneOption="false" echoTestApp="9196" dependsOn="UsersModule"/>\
+<module name="VideoconfModule" url="http://'+config.BBB_IP+'/client/VideoconfModule.swf?v=419" uri="rtmp://'+config.BBB_IP+'/video" dependson="UsersModule" baseTabIndex="401" presenterShareOnly="false" controlsForPresenter="false" autoStart="false" skipCamSettingsCheck="false" showButton="true" showCloseButton="true" publishWindowVisible="true" viewerWindowMaxed="false" viewerWindowLocation="top" smoothVideo="false" applyConvolutionFilter="false" convolutionFilter="-1, 0, -1, 0, 6, 0, -1, 0, -1" filterBias="0" filterDivisor="4" displayAvatar="false" focusTalking="false" glowColor="0x4A931D" glowBlurSize="30.0" priorityRatio="0.67"/>\
+<module name="WhiteboardModule" url="http://'+config.BBB_IP+'/client/WhiteboardModule.swf?v=419" uri="rtmp://'+config.BBB_IP+'/bigbluebutton" dependsOn="PresentModule" baseTabIndex="601" whiteboardAccess="presenter" keepToolbarVisible="false"/>\
+<module name="PollingModule" url="http://'+config.BBB_IP+'/client/PollingModule.swf?v=419" uri="rtmp://'+config.BBB_IP+'/bigbluebutton" dependsOn="PresentModule"/>\
+<module name="PresentModule" url="http://'+config.BBB_IP+'/client/PresentModule.swf?v=419" uri="rtmp://'+config.BBB_IP+'/bigbluebutton" host="http://'+config.BBB_IP+'" showPresentWindow="true" showWindowControls="true" openExternalFileUploadDialog="false" dependsOn="UsersModule" baseTabIndex="501" maxFileSize="30"/>\
+<module name="LayoutModule" url="http://'+config.BBB_IP+'/client/LayoutModule.swf?v=419" uri="rtmp://'+config.BBB_IP+'/bigbluebutton" layoutConfig="http://'+config.BBB_IP+'/client/conf/layout.xml" enableEdit="false"/>\
 </modules>\
 </config>';
 
 
-console.log('asdasd');
      return res.render('help', {
                 title: 'Help',
                 admin: 'admin',
