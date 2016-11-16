@@ -1,0 +1,54 @@
+
+# SETUJ WD
+WORKING_DIR="/opt/meteo-bbb"
+
+###  SVE RADI SA SUDO!!!!!! ####
+#### sudo ... pa komande ####
+
+# pre svega instalirati nodejs LTS i git-core
+# cd /opt
+# git clone https://github.com/mrwolfyu/meteo-bbb.git
+# ali to je vec verovatno uradjeno
+# pa cd /opt/meteo-bbb
+# pa npm install
+
+
+cd $WORKING_DIR
+#PRVO EDITUJ FAJLOVE .config.json i .env
+
+cp -f /var/www/bigbluebutton/client/conf/layout.xml /var/www/bigbluebutton/client/conf/layout.xml.orig
+chattr +i /var/www/bigbluebutton/client/conf/layout.xml.orig
+cp -f $WORKING_DIR/for-deploy/layout.xml /var/www/bigbluebutton/client/conf/layout.xml
+
+### SETUJ WEB SERVER
+ip=$(cat $WORKING_DIR/.config.json | egrep BBB_IP | sed 's/.*:.*"\(.*\)",/\1/')
+
+echo "IP IS: $ip"
+
+
+sta=$(cat $WORKING_DIR/for-deploy/bigbluebutton | grep server_name | sed 's/.*server_name\s*\(.*\);/\1/')
+
+sed -i s/$sta/$ip/g bigbluebutton
+
+cp -f /etc/nginx/sites-available/bigbluebutton /etc/nginx/sites-available/bigbluebutton.orig
+chattr +i /etc/nginx/sites-available/bigbluebutton.orig
+cp -f $WORKING_DIR/for-deploy/bigbluebutton /etc/nginx/sites-available/bigbluebutton
+
+service nginx restart
+#####
+
+
+### DODAJ USERA ###
+db=$(cat $WORKING_DIR/.env | egrep MONGODB_URI | sed 's/.*:27017\/\(.*\)/\1/')
+mongo  127.0.0.1/$db adduser.js
+####
+
+### RESETUJ BBB ###
+bbb-conf --clean
+
+### ADD TO START UP
+pm2 startup ubuntu
+pm2 save
+
+### ZAMENITI SSH PORT NA 58622 ####
+
