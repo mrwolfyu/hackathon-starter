@@ -145,6 +145,10 @@ app.post('/account/delete/:id', passportConfig.isAdmin, userController.postDelet
  */
 app.use(errorHandler());
 
+
+
+app.use('/default.pdf', express.static(__dirname + '/default.pdf'));
+
 /**
  * Start Express server.
  */
