@@ -1,6 +1,6 @@
 server {
      listen   80;
-     server_name  10.9.1.99;
+     server_name  172.23.104.66;
 
      access_log  /var/log/nginx/bigbluebutton.access.log;
 
