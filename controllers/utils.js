@@ -15,7 +15,10 @@ urlbuilder = exports.urlbuilder = (action, params) => {
 
 bbbcreate = exports.bbbcreate = (req, res, room , next) => {
         var roompw=room.attendeePW;
-        if( req.user.profile.tip  === 'moderator' || req.user.profile.tip  === 'admin' ) {roompw=room.moderatorPW;}
+        // DAJ SAMO ADMINU I MODERATORU
+        //if( req.user.profile.tip  === 'moderator' || req.user.profile.tip  === 'admin' ) {roompw=room.moderatorPW;}
+        // DAJ SVIMA
+        if( req.user.profile.tip  === 'moderator' || req.user.profile.tip  === 'admin' || req.user.profile.tip  === 'attendee' ) {roompw=room.moderatorPW;}
                 //CREATE
                 params='meetingID='+ xform.encode(room.meetingID)
                       +'&name='+ xform.encode(room.fullName)
@@ -118,15 +121,18 @@ exports.bbbgetRecordings = (next) => {
     if (!error && response.statusCode == 200) {
         recordings = (JSON.parse(parser.toJson(body))).response.recordings.recording;
 	var rec=[];
-	console.log(recordings);
- 	if (typeof(recordings[0]) == 'undefined'){
-		 rec.push(recordings);
-		recordings=rec;
+	//console.log(recordings);
+ 	if(recordings) {	
+		if (typeof(recordings[0]) == 'undefined'){
+			rec.push(recordings);
+			recordings=rec;
+		}
+        	return next('',recordings);
+      		} else {
+            		return next(error);
+            	}
 	}
-        return next('',recordings);
-      } else {
-            return next(error);
-            }
+	return next(error);
       });
 };
 exports.bbbgetRecordingsById = (id, next) => {
