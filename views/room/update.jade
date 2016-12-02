@@ -49,13 +49,13 @@ block content
           input(type='checkbox', checked=room.publish=='publish',name='publish', value='publish', id='publish')
           span publish
     .form-group
-      label.col-sm-3.control-label(for='welcomemsg') Welcome message
+      label.col-sm-3.control-label(for='welcome') Welcome message
       .col-sm-7
-        textarea.form-control(type='text', name='welcomemsg', id='welcomemsg', value='#{room.welcomemsg}' rows='12',  placeholder='Custom Welcome message if aplicable')
+        textarea.form-control(type='text', name='welcome', id='welcome', rows='12',  placeholder='Custom Welcome message if aplicable') #{room.welcome}
     .form-group
       label.col-sm-3.control-label(for='xml') Custom XML
       .col-sm-7
-        textarea.form-control(type='text', name='xml', id='xml', rows='12', value='#{room.xml}', placeholder='Custom XML if aplicable')
+        textarea.form-control(type='text', name='xml', id='xml', rows='12', placeholder='Custom XML if aplicable') #{room.xml}
     .form-group
       .col-sm-offset-3.col-sm-7
         button.btn.btn.btn-primary(type='submit')

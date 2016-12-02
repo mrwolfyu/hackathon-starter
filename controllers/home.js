@@ -121,12 +121,8 @@ exports.index = (req, res) => {
             
             
             pRoom.then(value => {
-                console.log("ISPISI ROOM ");
-                console.log(value);
                 if (parseInt(value['participantCount']) < 1){
-                    console.log("NEMA VISE UCESNIKA");
-                    utils.bbbend(value['meetingID'], (err, next) => {
-                        
+                        utils.bbbend(value['meetingID'], (err, next) => {
                     });
                 }
                 var brojmoderatora=0;

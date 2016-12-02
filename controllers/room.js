@@ -55,7 +55,7 @@ exports.postRoom = (req, res, next) => {
     room.fullName = req.body.fullName || '';
     room.publish = req.body.publish || '';
     room.moderatorPW = req.body.moderatorPW || '';
-    room.welcomemsg = req.body.welcomemsg || '';
+    room.welcome = req.body.welcome || '';
 
     room.save((err) => {
       if (err) { return next(err); }
@@ -99,8 +99,7 @@ exports.postRoomById = (req, res, next) => {
     room.publish = req.body.publish || '';
     room.attendeePW = req.body.attendeePW || '';
     room.moderatorPW = req.body.moderatorPW || '';
-    room.welcomemsg = req.body.welcomemsg || '';
-
+    room.welcome = req.body.welcome || '';
     room.save((err) => {
       if (err) { return next(err); }
         req.flash('success', { msg: 'Success! You updated a room/meeting.' });
