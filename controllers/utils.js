@@ -106,12 +106,29 @@ bbbgetMeetings = exports.bbbgetMeetings = (next) => {
     var url = urlbuilder('getMeetings','');
     request({url: url, method: 'POST'}, function (error, response, body) {
     if (!error && response.statusCode == 200) {
-        meetings = (JSON.parse(parser.toJson(body))).response.meetings;
-        return next('', meetings);    
-      } else {
+        if (typeof((JSON.parse(parser.toJson(body))).response.meetings.meeting) == 'undefined'){
+            meetings = (JSON.parse(parser.toJson(body))).response.meetings;
+            return next('', meetings);
+        }
+        else {
+        meetings = (JSON.parse(parser.toJson(body))).response.meetings.meeting;
+        var meet=[];
+	    //console.log(meetings);
+        if(meetings) {
+            if (typeof(meetings[0]) == 'undefined'){
+                meet.push(meetings);
+                meetings=meet;
+            }
+            return next('', meetings);    
+        } else {
+            return next(error);
+        } 
+        } 
+    } else {
             return next(error);
             }
-      });
+    
+   });
 };
 
 exports.bbbgetRecordings = (next) => {
@@ -120,17 +137,17 @@ exports.bbbgetRecordings = (next) => {
     request({url: url, method: 'POST'}, function (error, response, body) {
     if (!error && response.statusCode == 200) {
         recordings = (JSON.parse(parser.toJson(body))).response.recordings.recording;
-	var rec=[];
-	//console.log(recordings);
- 	if(recordings) {	
-		if (typeof(recordings[0]) == 'undefined'){
-			rec.push(recordings);
-			recordings=rec;
-		}
-        	return next('',recordings);
-      		} else {
-            		return next(error);
-            	}
+	    var rec=[];
+	    //console.log(recordings);
+ 	    if(recordings) {	
+		    if (typeof(recordings[0]) == 'undefined'){
+		    	rec.push(recordings);
+		    	recordings=rec;
+		    }
+            return next('',recordings);
+        } else {
+            return next(error);
+        }
 	}
 	return next(error);
       });

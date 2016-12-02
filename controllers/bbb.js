@@ -41,6 +41,26 @@ exports.index = (req, res) => {
     });
 };
 
+exports.getMeetings = (req, res) => {
+    var meetings;
+    var pGet = new Promise((resolve,reject) => {
+        utils.bbbgetMeetings( (err, meetings) => { 
+            if(err) reject(err);
+            else resolve(meetings);
+        });
+    });
+    pGet.then( value => {
+        res.render('bbbapi/meeting', {
+                title: 'meeting',
+                meetings: value,
+                admin: 'admin',
+                LOCATION: config.LOCATION
+            });
+    } , reason=> {
+        req.flash('errors', { msg: 'ERROR! Can\'t find getMeetings.' + reason });
+    });
+};
+
 exports.getRecordings = (req, res) => {
     var recordings = [];
     var url = utils.urlbuilder('getRecordings','');
@@ -114,26 +134,6 @@ exports.getRecordingsById = (req, res) => {
       } , reason =>  {
             req.flash('errors', { msg: 'ERROR! Can\'t run getRecordings.'+ reason }); 
       });
-};
-
-exports.getMeetings = (req, res) => {
-    var meetings;
-    var pGet = new Promise((resolve,reject) => {
-        utils.bbbgetMeetings( (err, meetings) => { 
-            if(err) reject(err);
-            else resolve(meetings);
-        });
-    });
-    pGet.then( value => {
-        res.render('bbbapi/meeting', {
-                title: 'meeting',
-                meetings: value,
-                admin: 'admin',
-                LOCATION: config.LOCATION
-            });
-    } , reason=> {
-        req.flash('errors', { msg: 'ERROR! Can\'t find getMeetings.' + reason });
-    });
 };
 
 exports.actRecordingsById =(req, res) =>{
