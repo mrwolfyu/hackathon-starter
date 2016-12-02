@@ -98,53 +98,39 @@ exports.create = (req, res) => {
     });
 };
 
-exports.index = (req, res) => {
- console.log(req.headers.referer);
 
- if(typeof(req.headers.referer) != 'undefined') { 
+/*
+  utils.bbbend(req.params.id, (err, next) => {
+        if(err) {
+            req.flash('errors', { msg: 'ERROR! Can\'t delete getMeeting.' });
+            return res.redirect('/meeting');
+        }
+        else {
+            req.flash('success', { msg: 'Meeting deleted.' });
+            return res.redirect('/meeting');
+       }
+    });
+
+*/
+exports.index = (req, res) => {
+    if(typeof(req.headers.referer) != 'undefined') { 
         if(req.headers.referer.toString().match(/client\/BigBlueButton.html/)) {
             // LOGOUT ZA BigBlueButton
-            console.log(req.user.profile.roomID);
-            
-            
-            var pRoom = new Promise((resolve, reject) => {
-                Room.findById(req.user.profile.roomID, function (err, room){
-                    if(err) reject(err);
-                    else { 
-                        utils.bbbgetMeetingsById(room.meetingID, (err, meetings) => {
-                            if(err) reject(err);
-                            else resolve(meetings);
-                        });  
-                    }
-                });
+            Room.findById(req.user.profile.roomID, function (err, room){
+                if(err) reject(err);
+                else { 
+                    utils.bbbgetMeetingsById(room.meetingID, (err, meetings) => {
+                        if(err) reject(err);
+                        else if (parseInt(meetings['participantCount']) < 1 || parseInt(meetings['moderatorCount']) < 1 ){
+                            utils.bbbend(meetings['meetingID'], (err, next) => {
+                            });
+                        }
+                    });  
+                }
             });
             
-            
-            pRoom.then(value => {
-                if (parseInt(value['participantCount']) < 1){
-                        utils.bbbend(value['meetingID'], (err, next) => {
-                    });
-                }
-                var brojmoderatora=0;
-                if (parseInt(value['participantCount']) > 0){
-                    var att = value['attendees']['attendee'];
-                    att.forEach(function(element) {
-                        brojmoderatora=brojmoderatora+1;
-                    });
-                    if(brojmoderatora = 0 ){
-                        utils.bbbend(value['meetingID'], (err, next) => {
-                        
-                        });
-                    }
-                }
-                
-            console.log("ISPISI ROOM  END"); }
-           ,  reason => {console.log(reason);});
-            
-             
-            
-            
             req.logout();
+            req.flash();
             return res.redirect('/login');
         }
     }

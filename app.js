@@ -24,7 +24,6 @@ const config = require('./.config.json')
  */
 dotenv.load({ path: '.env' });
 
-
 /**
  * Controllers (route handlers).
  */
