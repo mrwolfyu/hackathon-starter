@@ -21,8 +21,11 @@ block content
                i.fa.fa-pencil EDIT
              a.btn.btn-success(href='/admin/create/#{room._id}' style='padding: 2px; margin-right:5px; border-radius:4px;')
                i.fa.fa-plus CREATE
-             a.btn.btn-warning(href='/admin/join/#{room._id}' style='padding: 2px; border-radius:4px;')
+             a.btn.btn-warning(href='/admin/join/#{room._id}' style='padding: 2px; margin-right:5px; border-radius:4px;')
                i.fa.fa-check JOIN
+             a.btn.btn-danger(href='/roomc/delete/#{room._id}' style='padding: 2px; border-radius:4px;')
+               i.fa.fa-trash DELETE
+             
   .form-group
       a.button.btn.btn-primary(href='/roomc')
         i.fa.fa-plus

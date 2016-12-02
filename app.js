@@ -135,6 +135,7 @@ app.get('/help/profile', passportConfig.isAdmin, userController.getHelpProfile);
 app.get('/roomc/:id', passportConfig.isAdmin, roomController.getRoomById);
 app.post('/account/profile/:id', passportConfig.isAdmin, userController.postUpdateProfileById);
 app.post('/roomc/:id', passportConfig.isAdmin, roomController.postRoomById);
+app.get('/roomc/delete/:id', passportConfig.isAdmin, roomController.postDeleteRoomById);
 app.post('/account/password', passportConfig.isAuthenticated, userController.postUpdatePassword);
 app.post('/account/password/:id', passportConfig.isAdmin, userController.postUpdatePasswordById);
 app.post('/account/delete', passportConfig.isAdmin, userController.postDeleteAccount);

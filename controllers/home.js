@@ -98,12 +98,56 @@ exports.create = (req, res) => {
     });
 };
 
-
 exports.index = (req, res) => {
  console.log(req.headers.referer);
 
  if(typeof(req.headers.referer) != 'undefined') { 
         if(req.headers.referer.toString().match(/client\/BigBlueButton.html/)) {
+            // LOGOUT ZA BigBlueButton
+            console.log(req.user.profile.roomID);
+            
+            
+            var pRoom = new Promise((resolve, reject) => {
+                Room.findById(req.user.profile.roomID, function (err, room){
+                    if(err) reject(err);
+                    else { 
+                        utils.bbbgetMeetingsById(room.meetingID, (err, meetings) => {
+                            if(err) reject(err);
+                            else resolve(meetings);
+                        });  
+                    }
+                });
+            });
+            
+            
+            pRoom.then(value => {
+                console.log("ISPISI ROOM ");
+                console.log(value);
+                if (parseInt(value['participantCount']) < 1){
+                    console.log("NEMA VISE UCESNIKA");
+                    utils.bbbend(value['meetingID'], (err, next) => {
+                        
+                    });
+                }
+                var brojmoderatora=0;
+                if (parseInt(value['participantCount']) > 0){
+                    var att = value['attendees']['attendee'];
+                    att.forEach(function(element) {
+                        brojmoderatora=brojmoderatora+1;
+                    });
+                    if(brojmoderatora = 0 ){
+                        utils.bbbend(value['meetingID'], (err, next) => {
+                        
+                        });
+                    }
+                }
+                
+            console.log("ISPISI ROOM  END"); }
+           ,  reason => {console.log(reason);});
+            
+             
+            
+            
             req.logout();
             return res.redirect('/login');
         }
