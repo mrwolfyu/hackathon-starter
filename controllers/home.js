@@ -116,21 +116,19 @@ exports.index = (req, res) => {
     if(typeof(req.headers.referer) != 'undefined') { 
         if(req.headers.referer.toString().match(/client\/BigBlueButton.html/)) {
             // LOGOUT ZA BigBlueButton
-            console.log(req.user);
             Room.findById(req.user.profile.roomID, function (err, room){
-                if(err) reject(err);
-                else { 
+                if(!err) { 
                     utils.bbbgetMeetingsById(room.meetingID, (err, meetings) => {
-                        if(err) reject(err);
-                        else {
-                            console.log(meetings); 
+                        if(!err) {
                             if (parseInt(meetings['participantCount']) < 1 || parseInt(meetings['moderatorCount']) < 1 ){
                                 utils.bbbend(meetings['meetingID'], (err, next) => {
                                 });
                             }
                         }
+                        else console.log(err);
                     });  
                 }
+                else console.log(err);
             });
             
             req.logout();
