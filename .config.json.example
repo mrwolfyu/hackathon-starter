@@ -6,5 +6,6 @@
 	"BBB_SECRET": "SECRET_R",
     "BBB_VIDEO": "/presentation/SUBrecordID/video/webcams.webm",
     "BBB_AUDIO": "/presentation/SUBrecordID/audio/audio.webm",
-    "BBB_AUDIO_OGG": "/presentation/SUBrecordID/audio/audio.ogg"
+    "BBB_AUDIO_OGG": "/presentation/SUBrecordID/audio/audio.ogg",
+    "WELCOMEMSG" :"<h1>CKL_ROOM</h1><h2>SMATSA METEO INFO ROOM</h2><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p>"
 }

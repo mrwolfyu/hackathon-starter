@@ -2,7 +2,7 @@ const async = require('async');
 const crypto = require('crypto');
 const passport = require('passport');
 const Room = require('../models/Room');
-
+const config = require('../.config.json');
 
 
 
@@ -10,6 +10,7 @@ exports.getRoom = (req, res) => {
     
     res.render('room/create', {
       title: 'Room Management',
+      welcomemsg: config.WELCOMEMSG,
       admin: 'admin'
     });
 };
