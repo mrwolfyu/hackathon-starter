@@ -147,6 +147,7 @@ exports.postSignup = (req, res, next) => {
     user.profile.name = req.body.name || '';
     user.profile.tip = req.body.tip || '';
     user.profile.xml = req.body.xml || '';
+    user.profile.roomID = req.body.roomID || '';
 
     user.save((err) => {
       if (err) { return next(err); }
@@ -212,6 +213,7 @@ exports.postUpdateProfile = (req, res, next) => {
     user.profile.name = req.body.name || '';
     user.profile.tip = req.body.tip || '';
     user.profile.xml = req.body.xml || '';
+    user.profile.roomID = req.body.roomID || '';
     user.save((err) => {
       if (err) {
         if (err.code === 11000) {

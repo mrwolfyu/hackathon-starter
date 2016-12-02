@@ -119,16 +119,15 @@ exports.index = (req, res) => {
             Room.findById(req.user.profile.roomID, function (err, room){
                 if(!err) { 
                     utils.bbbgetMeetingsById(room.meetingID, (err, meetings) => {
+                    //    console.log(meetings);
                         if(!err) {
                             if (parseInt(meetings['participantCount']) < 1 || parseInt(meetings['moderatorCount']) < 1 ){
                                 utils.bbbend(meetings['meetingID'], (err, next) => {
                                 });
                             }
                         }
-                        else console.log(err);
                     });  
                 }
-                else console.log(err);
             });
             
             req.logout();
