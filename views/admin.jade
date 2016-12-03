@@ -35,13 +35,17 @@ block content
     table.table.table-hover.table-bordered
        thead
          tr
-           th Username/Name
+           th Username
+           th Name
            th Type
+           th RoomID binded to
            th Action
        each user, i in users  
          tr
-           td #{user.username} / #{user.profile.name}
+           td #{user.username}
+           td #{user.profile.name}
            td #{user.profile.tip}
+           td #{roomhash[user.profile.roomID]}
            td(style='width:1%; white-space:nowrap;')
              a.btn.btn-primary(href='/account/#{user._id}' style='padding: 2px; border-radius:4px;')
                i.fa.fa-pencil EDIT

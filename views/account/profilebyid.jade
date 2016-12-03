@@ -18,6 +18,7 @@ block content
       label.col-sm-3.control-label(for='select') Bind Room
       .col-sm-7
         select(id='roomID', name='roomID')
+          option(value='', label='NONE' selected=1) NONE
           each room, i in rooms
             option(value='#{room._id}', label='#{room.name}' selected=edituser.profile.roomID==room._id) #{room.name}
     .form-group

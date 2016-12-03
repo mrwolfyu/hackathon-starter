@@ -58,11 +58,16 @@ exports.adminindex = (req, res) => {
     });
     
     Promise.all([pRoom, pUser]).then( value => {
+        var roomhash = {};
+        value[0].forEach(function(element) {
+           roomhash[element['_id']]=element['meetingID'];
+        });
         res.render('admin', {
                 title: 'Admin',
                 admin: 'admin',
                 users: value[1],
                 rooms: value[0],
+                roomhash: roomhash,
                 LOCATION: config.LOCATION
         });
     }, reason => {

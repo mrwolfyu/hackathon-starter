@@ -3,7 +3,7 @@ const crypto = require('crypto');
 const passport = require('passport');
 const Room = require('../models/Room');
 const config = require('../.config.json');
-
+const User = require('../models/User');
 
 
 exports.getRoom = (req, res) => {
@@ -123,12 +123,34 @@ exports.getRoomById = (req, res) => {
 };
 
 exports.postDeleteRoomById = (req, res, next) => {
-
+//db.users.find({'profile.roomID':'584171ce5ec977196e280e92'})
+User.find({'profile.roomID': req.params.id }, function (err, user){
+            if(err) {
+                console.log('some error in postDeleteRoombyId fin user for roomID');
+                req.flash('errors', { msg: 'Room has NOT been deleted. some error in postDeleteRoombyId fin user for roomID!!!' });
+                return res.redirect('/');
+            }
+            else {
+                if(user.length > 0) {
+                    req.flash('errors', { msg: 'Room has NOT been deleted. Some of users still binded to this room!!!' });
+                    return res.redirect('/');
+                }
+                else {
+                    Room.remove({ _id: req.params.id }, (err) => {
+                        if (err) { return next(err); }
+                            req.flash('info', { msg: 'Room has been deleted.' });
+                            return res.redirect('/');
+                        });
+                }
+            }
+        });
+/*
   Room.remove({ _id: req.params.id }, (err) => {
     if (err) { return next(err); }
     req.flash('info', { msg: 'Room has been deleted.' });
     res.redirect('/');
   });
+//*/
 };
 
 

@@ -110,10 +110,23 @@ exports.logout = (req, res) => {
  * Signup page.
  */
 exports.getSignup = (req, res) => {
+    Room.find({}, function(err, rooms) {
+        if(!rooms) {
+            rooms= [];
+            rooms.push({name:"none"});
+        }
+        res.render('account/signup', {
+                title: 'Create Account',
+                admin: 'admin',
+                rooms: rooms
+        });
+    });
+/*
     res.render('account/signup', {
       title: 'Create Account',
       admin: 'admin'
     });
+//*/
 };
 
 /**
@@ -142,7 +155,10 @@ exports.postSignup = (req, res, next) => {
       req.flash('errors', { msg: 'Account with that username already exists.' });
       return res.redirect('/signup');
     }
-
+    if ( req.body.tip!='admin' && (req.body.roomID==undefined || req.body.roomID=='' || req.body.roomID==null)) {
+      req.flash('errors', { msg: 'Attendee or Moderator must have room binded.' });
+      return res.redirect('/signup');
+    }
     user.username = req.body.username;
     user.profile.name = req.body.name || '';
     user.profile.tip = req.body.tip || '';
