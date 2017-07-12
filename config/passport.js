@@ -56,7 +56,7 @@ exports.isAuthorized = (req, res, next) => {
 
 
 exports.isAdmin = (req, res, next) => {
-  if ( req.isAuthenticated()  && req.user.profile.tip == 'admin' ) {
+  if ( req.isAuthenticated()  && req.user.profile.tip === 'admin' ) {
     next();
   } else {
     res.redirect(`/logout`);
@@ -64,7 +64,7 @@ exports.isAdmin = (req, res, next) => {
 };
 
 exports.isListener = (req, res, next) => {
-  if ( req.isAuthenticated()  && req.user.profile.tip == 'listener' ) {
+  if ( req.isAuthenticated()  && req.user.profile.tip === 'listener' ) {
     next();
   } else {
     res.redirect(`/logout`);
