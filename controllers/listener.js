@@ -72,8 +72,8 @@ exports.getRecordings = (req, res) => {
         });
     });
     pRec.then( value => {
-        res.render('bbbapi/recording', {
-                title: 'recording',
+        res.render('bbbapi/listener', {
+                title: 'listener',
                 recordings: sortBy(value, 'startTime').reverse(),
                 admin: 'admin',
                 moment: moment,
