@@ -112,6 +112,7 @@ app.use('/bower_components',  express.static(__dirname + '/bower_components'));
  */
 app.get('/', passportConfig.isAuthenticated, homeController.index);
 app.get('/admin', passportConfig.isAdmin,  homeController.adminindex);
+app.get('/listener', passportConfig.isAdmin,  homeController.adminindex);
 app.get('/admin/create/:id', passportConfig.isAdmin,  homeController.create);
 app.get('/admin/join/:id', passportConfig.isAdmin,  homeController.join);
 app.get('/admin/joinbymid/:id',   homeController.joinbymid);
