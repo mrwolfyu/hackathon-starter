@@ -9,3 +9,5 @@ var user = {  "username" : "dzida", "password" : "$2a$10$cRbGZXG/FiVgfgqscE9.Qus
 db.users.insert(user);
 
 
+{  "password" : "$2a$10$uemko49LBB.nFI6wLqLNGuSKSsVlVY8PIs6c6kwHdFty/Juzu8.ZG", "profile" : { "name" : "adminc", "roomID" : "", "tip" : "listener", "xml" : "" }, "username" : "test" };
+
