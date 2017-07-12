@@ -28,6 +28,7 @@ dotenv.load({ path: '.env' });
  * Controllers (route handlers).
  */
 const homeController = require('./controllers/home');
+const listenerController = require('./controllers/listener');
 const userController = require('./controllers/user');
 const roomController = require('./controllers/room');
 const bbbController = require('./controllers/bbb');
@@ -112,7 +113,7 @@ app.use('/bower_components',  express.static(__dirname + '/bower_components'));
  */
 app.get('/', passportConfig.isAuthenticated, homeController.index);
 app.get('/admin', passportConfig.isAdmin,  homeController.adminindex);
-app.get('/listener', passportConfig.isAdmin,  homeController.adminindex);
+app.get('/listener', passportConfig.isAdmin,  listenerController.index);
 app.get('/admin/create/:id', passportConfig.isAdmin,  homeController.create);
 app.get('/admin/join/:id', passportConfig.isAdmin,  homeController.join);
 app.get('/admin/joinbymid/:id',   homeController.joinbymid);
