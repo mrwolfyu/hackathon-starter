@@ -63,6 +63,15 @@ exports.isAdmin = (req, res, next) => {
   }
 };
 
+exports.isListener = (req, res, next) => {
+  if ( req.isAuthenticated()  && req.user.profile.tip == 'listener' ) {
+    next();
+  } else {
+    res.redirect(`/logout`);
+  }
+};
+
+
 
 
 
