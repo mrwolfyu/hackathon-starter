@@ -68,11 +68,10 @@ exports.getRecordings = (req, res) => {
     var url = utils.urlbuilder('getRecordings','');
 
     
- console.log("ASDASDSDAD " + req.user.profile.roomID);
      Room.findById(req.user.profile.roomID, function (err, room){
          console.log("ASDASDSDAD " + room.meetingID);
         var pRec = new Promise((resolve, reject) =>{
-            utils.bbbgetRecordingsById( room.meetingID, (err, meetings) => {
+            utils.bbbgetRecordingsByMId( room.meetingID, (err, meetings) => {
                 if(err) reject(err);
                 else resolve(meetings);
             });
