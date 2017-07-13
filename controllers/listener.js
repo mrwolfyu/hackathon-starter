@@ -49,6 +49,7 @@ exports.getMeetings = (req, res) => {
             else resolve(meetings);
         });
     });
+    
     pGet.then( value => {
         res.render('bbbapi/meeting', {
                 title: 'meeting',
@@ -71,8 +72,11 @@ exports.getRecordings = (req, res) => {
             else resolve(meetings);
         });
     });
+
+    
     pRec.then( value => {
-        console.log(value);
+
+        console.log(req.user.profile.roomID);
         res.render('bbbapi/listener', {
                 title: 'listener',
                 recordings: sortBy(value, 'startTime').reverse(),
