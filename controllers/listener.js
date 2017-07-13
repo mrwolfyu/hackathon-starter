@@ -70,12 +70,12 @@ exports.getRecordings = (req, res) => {
     
      Room.findById(req.user.profile.roomID, function (err, room){
         var pRec = new Promise((resolve, reject) =>{
-            utils.bbbgetRecordingsByMId( "METEO-ROOM-LYBT", (err, meetings) => {
+            utils.bbbgetRecordingsByMId( room.meetingID, (err, meetings) => {
                 if(err) reject(err);
                 else resolve(meetings);
             });
         });
-        console.log("***************" + room);
+        // console.log("***************" + room.meetingID);
         pRec.then( value => {
             res.render('bbbapi/listener', {
                     title: 'listener',
