@@ -75,7 +75,6 @@ exports.getRecordings = (req, res) => {
                 else resolve(meetings);
             });
         });
-        // console.log("***************" + room.meetingID);
         pRec.then( value => {
             res.render('bbbapi/listener', {
                     title: 'listener',
