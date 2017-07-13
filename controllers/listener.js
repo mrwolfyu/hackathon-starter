@@ -127,7 +127,7 @@ exports.getRecordingsById = (req, res) => {
             res.render('bbbapi/recordingbyid', {
                 title: 'recording',
                 recordings: value,
-                admin: 'admin',
+                admin: 'listener',
                 LOCATION: config.LOCATION
             });
 
