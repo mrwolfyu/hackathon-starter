@@ -144,6 +144,9 @@ exports.index = (req, res) => {
   if(req.user.profile.tip === 'admin') {
 	return res.redirect('/admin');
   }
+ if(req.user.profile.tip === 'listener') {
+	return res.redirect('/listener');
+  }
   else {
     if(req.user.profile.tip === 'moderator' || req.user.profile.tip === 'attendee') {
             Room.findById(req.user.profile.roomID, function (err, room){
