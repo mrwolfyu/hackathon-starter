@@ -72,6 +72,16 @@ exports.isListener = (req, res, next) => {
 };
 
 
+exports.isPlayer = (req, res, next) => {
+  if ( req.isAuthenticated()  && (req.user.profile.tip === 'listener' || req.user.profile.tip === 'admin') ) {
+    next();
+  } else {
+    res.redirect(`/logout`);
+  }
+};
+
+
+
 
 
 
