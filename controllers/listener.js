@@ -73,23 +73,25 @@ exports.getRecordings = (req, res) => {
             else resolve(meetings);
         });
     });
-
     
-    pRec.then( value => {
-         Room.findById(req.user.profile.roomID, function (err, room){
-             console.log("ASDASDSDAD " + room);
-            }); 
-        console.log(req.user.profile.roomID);
-        res.render('bbbapi/listener', {
-                title: 'listener',
-                recordings: sortBy(value, 'startTime').reverse(),
-                admin: 'listener',
-                moment: moment,
-                LOCATION: config.LOCATION
-            });
-    } , reason=> {
-        req.flash('errors', { msg: 'ERROR! Can\'t find getRecordings.' + reason });
-    });
+
+     Room.findById(req.user.profile.roomID, function (err, room){
+        pRec.then( value => {
+            
+                console.log("ASDASDSDAD " + room);
+       
+            console.log(req.user.profile.roomID);
+            res.render('bbbapi/listener', {
+                    title: 'listener',
+                    recordings: sortBy(value, 'startTime').reverse(),
+                    admin: 'listener',
+                    moment: moment,
+                    LOCATION: config.LOCATION
+                });
+        } , reason=> {
+            req.flash('errors', { msg: 'ERROR! Can\'t find getRecordings.' + reason });
+        });
+     }); 
 };
 
 exports.getMeetingsById = (req, res) => {
