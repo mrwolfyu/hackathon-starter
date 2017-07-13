@@ -69,7 +69,6 @@ exports.getRecordings = (req, res) => {
 
     
     //  Room.findById(req.user.profile.roomID, function (err, room){
-         console.log("ASDASDSDAD " + room.meetingID);
         var pRec = new Promise((resolve, reject) =>{
             utils.bbbgetRecordingsByMId( req.user.profile.roomID, (err, meetings) => {
                 if(err) reject(err);
@@ -78,10 +77,6 @@ exports.getRecordings = (req, res) => {
         });
 
         pRec.then( value => {
-            
-                console.log("ASDASDSDAD " + room.meetingID);
-       
-            console.log(req.user.profile.roomID);
             res.render('bbbapi/listener', {
                     title: 'listener',
                     recordings: sortBy(value, 'startTime').reverse(),
