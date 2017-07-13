@@ -68,10 +68,10 @@ exports.getRecordings = (req, res) => {
     var url = utils.urlbuilder('getRecordings','');
 
     
-     Room.findById(req.user.profile.roomID, function (err, room){
+    //  Room.findById(req.user.profile.roomID, function (err, room){
          console.log("ASDASDSDAD " + room.meetingID);
         var pRec = new Promise((resolve, reject) =>{
-            utils.bbbgetRecordingsByMId( room.meetingID, (err, meetings) => {
+            utils.bbbgetRecordingsByMId( req.user.profile.roomID, (err, meetings) => {
                 if(err) reject(err);
                 else resolve(meetings);
             });
@@ -92,7 +92,7 @@ exports.getRecordings = (req, res) => {
         } , reason=> {
             req.flash('errors', { msg: 'ERROR! Can\'t find getRecordings.' + reason });
         });
-     }); 
+    //  }); 
 };
 
 exports.getMeetingsById = (req, res) => {

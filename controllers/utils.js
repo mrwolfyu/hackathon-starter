@@ -182,7 +182,7 @@ exports.bbbgetRecordingsById = (id, next) => {
 
 exports.bbbgetRecordingsByMId = (id, next) => {
     var recordings = [];
-    var url = urlbuilder('getRecordings','recordID='+xform.encode(id));
+    var url = urlbuilder('getRecordings','meetingID='+xform.encode(id));
     request({url: url, method: 'POST'}, function (error, response, body) {
     if (!error && response.statusCode == 200) {
         var jsons = parser.toJson(body);
