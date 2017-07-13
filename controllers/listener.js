@@ -70,7 +70,7 @@ exports.getRecordings = (req, res) => {
     
 
      Room.findById(req.user.profile.roomID, function (err, room){
-
+         console.log("ASDASDSDAD " + room.meetingID);
         var pRec = new Promise((resolve, reject) =>{
             utils.bbbgetRecordingsByMeetingId( room.meetingID, (err, meetings) => {
                 if(err) reject(err);
