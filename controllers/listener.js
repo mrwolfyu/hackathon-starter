@@ -78,7 +78,7 @@ exports.getRecordings = (req, res) => {
      Room.findById(req.user.profile.roomID, function (err, room){
         pRec.then( value => {
             
-                console.log("ASDASDSDAD " + room);
+                console.log("ASDASDSDAD " + room.meetingID);
        
             console.log(req.user.profile.roomID);
             res.render('bbbapi/listener', {
