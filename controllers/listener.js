@@ -10,6 +10,7 @@ const parser = require('xml2json');
 const moment = require('moment');
 const utils = require('./utils');
 const sortBy = require('lodash.sortby');
+const Room = require('../models/Room');
 
 exports.index = (req, res) => {
     var meetings = [];
