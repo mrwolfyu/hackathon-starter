@@ -75,7 +75,7 @@ exports.getRecordings = (req, res) => {
         res.render('bbbapi/listener', {
                 title: 'listener',
                 recordings: sortBy(value, 'startTime').reverse(),
-                admin: 'admin',
+                admin: 'listener',
                 moment: moment,
                 LOCATION: config.LOCATION
             });
