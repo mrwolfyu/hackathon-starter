@@ -68,14 +68,14 @@ exports.getRecordings = (req, res) => {
     var url = utils.urlbuilder('getRecordings','');
 
     
-    //  Room.findById(req.user.profile.roomID, function (err, room){
+     Room.findById(req.user.profile.roomID, function (err, room){
         var pRec = new Promise((resolve, reject) =>{
-            utils.bbbgetRecordingsByMId( req.user.profile.roomID, (err, meetings) => {
+            utils.bbbgetRecordingsByMId( "METEO-ROOM-LYBT", (err, meetings) => {
                 if(err) reject(err);
                 else resolve(meetings);
             });
         });
-
+        console.log("***************" + room.roomID);
         pRec.then( value => {
             res.render('bbbapi/listener', {
                     title: 'listener',
@@ -87,7 +87,7 @@ exports.getRecordings = (req, res) => {
         } , reason=> {
             req.flash('errors', { msg: 'ERROR! Can\'t find getRecordings.' + reason });
         });
-    //  }); 
+     }); 
 };
 
 exports.getMeetingsById = (req, res) => {
