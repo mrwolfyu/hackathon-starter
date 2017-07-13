@@ -165,6 +165,19 @@ exports.bbbgetRecordingsById = (id, next) => {
             }
       });
 };
+exports.bbbgetRecordingsByMeeingId = (id, next) => {
+    var recordings = [];
+    var url = urlbuilder('getRecordings','meetingID='+xform.encode(id));
+    request({url: url, method: 'POST'}, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+        var jsons = parser.toJson(body);
+        recordings = (JSON.parse(jsons)).response.recordings.recording;
+        return next('',recordings);            
+      } else {
+            return next(error);
+            }
+      });
+};
 
 exports.bbbend = (id, next) => {
     bbbgetMeetingsById(id, (err, meetings) => {
