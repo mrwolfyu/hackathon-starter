@@ -187,6 +187,7 @@ exports.bbbgetRecordingsByMId = (id, next) => {
     if (!error && response.statusCode == 200) {
         var jsons = parser.toJson(body);
         recordings = (JSON.parse(jsons)).response.recordings.recording;
+        var rec=[];
           if (typeof(recordings[0]) == 'undefined'){
 		    	rec.push(recordings);
 		    	recordings=rec;
