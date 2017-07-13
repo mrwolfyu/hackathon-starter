@@ -180,7 +180,7 @@ exports.bbbgetRecordingsById = (id, next) => {
 // };
 
 
-exports.bbbgetRecordingsByMId = (id, next) => {
+exports.bbbgetRecordingsByMId3 = (id, next) => {
     var recordings = [];
     var url = urlbuilder('getRecordings','recordID='+xform.encode(id));
     request({url: url, method: 'POST'}, function (error, response, body) {
